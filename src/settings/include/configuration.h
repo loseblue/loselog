@@ -174,6 +174,15 @@ class Configuration final : public Persistable<Configuration> {
         allowMultipleWindows_ = enabled;
     }
 
+    bool multiFileInOneTab() const
+    {
+        return multiFileInOneTab_;
+    }
+    void setMultiFileInOneTab( bool enabled )
+    {
+        multiFileInOneTab_ = enabled;
+    }
+
     // perf settings
     bool useParallelSearch() const
     {
@@ -556,6 +565,7 @@ class Configuration final : public Persistable<Configuration> {
     bool loadLastSession_ = true;
     bool followFileOnLoad_ = false;
     bool allowMultipleWindows_ = false;
+    bool multiFileInOneTab_ = false;
 
     // View settings
     bool overviewVisible_ = true;

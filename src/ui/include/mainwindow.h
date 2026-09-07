@@ -41,6 +41,7 @@
 
 #include <QMainWindow>
 #include <QMenu>
+#include <QSet>
 #include <QSystemTrayIcon>
 #include <QTemporaryDir>
 
@@ -198,7 +199,9 @@ class MainWindow : public QMainWindow {
     void createTrayIcon();
     void readSettings();
     void writeSettings();
-    bool loadFile( const QString& fileName, bool followFile = false );
+    void openFilesInOneTab( const QStringList& fileNames );
+
+    bool loadFile( const QString& fileName, bool followFile = false, bool addToRecent = true );
     bool extractAndLoadFile( const QString& fileName );
     void openRemoteFile( const QUrl& url );
     void updateTitleBar( const QString& fileName );
@@ -313,6 +316,7 @@ class MainWindow : public QMainWindow {
 
     TabbedScratchPad scratchPad_;
 
+    QSet<QString> multiFileTempPaths_;
     QTemporaryDir tempDir_;
 
     bool isMaximized_ = false;

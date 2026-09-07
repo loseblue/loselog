@@ -60,3 +60,16 @@ cmake-build-relwithdebinfo/
 #website
 website/hugo
 website/resources/
+# Local toolchain and build directories
+.tools/
+build_root_cmake3/
+
+# Windows portable packaging output
+release_portable/
+klogg-*.zip
+
+# Generated documentation
+advanced-guide.html
+getting-started.html
+user-guide.html
+aqtinstall.log

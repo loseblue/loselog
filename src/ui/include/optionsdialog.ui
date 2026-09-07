@@ -524,6 +524,13 @@
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="multiFileInOneTabCheckBox">
+         <property name="text">
+          <string>Multi file in one tab</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QGroupBox" name="encodingGroupBox">
          <property name="title">
           <string>Encoding</string>

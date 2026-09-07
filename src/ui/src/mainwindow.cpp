@@ -44,6 +44,7 @@
 #include "containers.h"
 #include "log.h"
 #include <QNetworkReply>
+#include <algorithm>
 #include <cassert>
 #include <exception>
 
@@ -59,6 +60,8 @@
 #include <QClipboard>
 #include <QCloseEvent>
 #include <QDialogButtonBox>
+#include <QDir>
+#include <QFile>
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QInputDialog>
@@ -73,6 +76,8 @@
 #include <QSortFilterProxyModel>
 #include <QStringListModel>
 #include <QTemporaryFile>
+#include <QFutureWatcher>
+#include <QtConcurrent>
 #include <QTextBrowser>
 #include <QToolBar>
 #include <QToolTip>
@@ -111,6 +116,73 @@ namespace {
 void signalCrawlerToFollowFile( CrawlerWidget* crawler_widget )
 {
     dispatchToMainThread( [ crawler_widget ]() { crawler_widget->followSet( true ); } );
+}
+
+QStringList sortFileNamesByBaseName( QStringList fileNames )
+{
+    std::sort( fileNames.begin(), fileNames.end(),
+               []( const QString& lhs, const QString& rhs ) {
+                   const auto lhsName = QFileInfo( lhs ).fileName();
+                   const auto rhsName = QFileInfo( rhs ).fileName();
+                   const auto nameComparison
+                       = QString::compare( lhsName, rhsName, Qt::CaseInsensitive );
+                   if ( nameComparison == 0 ) {
+                       return QString::compare( lhs, rhs, Qt::CaseInsensitive ) < 0;
+                   }
+                   return nameComparison < 0;
+               } );
+
+    return fileNames;
+}
+
+QString createCombinedLogFile( const QStringList& fileNames, const QString& tempFileTemplate )
+{
+    QTemporaryFile outputFile( tempFileTemplate );
+    outputFile.setAutoRemove( false );
+
+    if ( !outputFile.open() ) {
+        LOG_ERROR << "Can't create temporary combined file";
+        return {};
+    }
+
+    const auto cleanupAndReturnEmpty = [ &outputFile ]() {
+        const auto fileName = outputFile.fileName();
+        outputFile.close();
+        QFile::remove( fileName );
+        return QString{};
+    };
+
+    for ( const auto& fileName : fileNames ) {
+        QFile inputFile( fileName );
+        if ( !inputFile.open( QIODevice::ReadOnly ) ) {
+            LOG_ERROR << "Can't open file for combined tab: " << fileName;
+            return cleanupAndReturnEmpty();
+        }
+
+        while ( !inputFile.atEnd() ) {
+            const auto buffer = inputFile.read( 4 * 1024 * 1024 );
+            if ( buffer.isEmpty() ) {
+                break;
+            }
+
+            qint64 totalWritten = 0;
+            while ( totalWritten < buffer.size() ) {
+                const auto written
+                    = outputFile.write( buffer.constData() + totalWritten,
+                                        buffer.size() - totalWritten );
+                if ( written <= 0 ) {
+                    LOG_ERROR << "Can't write temporary combined file";
+                    return cleanupAndReturnEmpty();
+                }
+                totalWritten += written;
+            }
+        }
+
+        inputFile.close();
+    }
+
+    outputFile.close();
+    return outputFile.fileName();
 }
 
 static constexpr auto ClipboardMaxTry = 5;
@@ -1441,19 +1513,29 @@ void MainWindow::closeTab( int index, ActionInitiator initiator )
 
     assert( widget );
 
+    const auto fileName = session_.getFilename( widget );
+
     widget->stopLoading();
     mainTabWidget_.removeCrawler( index );
 
     if ( initiator == ActionInitiator::User ) {
-        addRecentFile( session_.getFilename( widget ) );
+        if ( !multiFileTempPaths_.contains( fileName ) ) {
+            addRecentFile( fileName );
+        }
     }
 
     session_.close( widget );
+
+    if ( multiFileTempPaths_.contains( fileName ) ) {
+        multiFileTempPaths_.remove( fileName );
+        QFile::remove( fileName );
+    }
 
     updateOpenedFilesMenu();
 
     widget->deleteLater();
 }
+
 
 void MainWindow::currentTabChanged( int index )
 {
@@ -1592,6 +1674,43 @@ void MainWindow::changeEvent( QEvent* event )
     QMainWindow::changeEvent( event );
 }
 
+void MainWindow::openFilesInOneTab( const QStringList& fileNames )
+{
+    const auto sortedFileNames = sortFileNamesByBaseName( fileNames );
+
+    auto* watcher = new QFutureWatcher<QString>( this );
+    connect( watcher, &QFutureWatcher<QString>::finished, this,
+             [ this, watcher, sortedFileNames ]() {
+                 const auto combinedFileName = watcher->result();
+                 watcher->deleteLater();
+
+                 if ( combinedFileName.isEmpty() ) {
+                     for ( const auto& fileName : sortedFileNames ) {
+                         loadFile( fileName );
+                     }
+                     return;
+                 }
+
+                 if ( loadFile( combinedFileName, false, false ) ) {
+                     multiFileTempPaths_.insert( combinedFileName );
+                     for ( const auto& fileName : sortedFileNames ) {
+                         addRecentFile( fileName );
+                     }
+                 }
+                 else {
+                     QFile::remove( combinedFileName );
+                     for ( const auto& fileName : sortedFileNames ) {
+                         loadFile( fileName );
+                     }
+                 }
+             } );
+
+    const auto tempFileTemplate = QDir::temp().filePath( "loselog_multi_XXXXXX.log" );
+    watcher->setFuture( QtConcurrent::run( [ sortedFileNames, tempFileTemplate ]() {
+        return createCombinedLogFile( sortedFileNames, tempFileTemplate );
+    } ) );
+}
+
 // Accepts the drag event if it looks like a filename
 void MainWindow::dragEnterEvent( QDragEnterEvent* event )
 {
@@ -1604,13 +1723,30 @@ void MainWindow::dropEvent( QDropEvent* event )
 {
     const QList<QUrl> urls = event->mimeData()->urls();
 
+    QStringList localFiles;
     for ( const auto& url : urls ) {
-        auto fileName = url.toLocalFile();
-        if ( fileName.isEmpty() )
-            continue;
-
-        loadFile( fileName );
+        const auto fileName = url.toLocalFile();
+        if ( !fileName.isEmpty() ) {
+            localFiles.append( fileName );
+        }
     }
+
+    const auto& config = Configuration::get();
+    const auto hasArchive
+        = std::any_of( localFiles.cbegin(), localFiles.cend(), [ &config ]( const auto& fileName ) {
+              return config.extractArchives()
+                     && Decompressor::action( fileName ) != DecompressAction::None;
+          } );
+
+    if ( !hasArchive && localFiles.size() > 1 && config.multiFileInOneTab() ) {
+        openFilesInOneTab( localFiles );
+    }
+    else {
+        for ( const auto& fileName : localFiles ) {
+            loadFile( fileName );
+        }
+    }
+
 }
 
 bool MainWindow::event( QEvent* event )
@@ -1720,7 +1856,7 @@ bool MainWindow::extractAndLoadFile( const QString& fileName )
 // Create a CrawlerWidget for the passed file, start its loading
 // and update the title bar.
 // The loading is done asynchronously.
-bool MainWindow::loadFile( const QString& fileName, bool followFile )
+bool MainWindow::loadFile( const QString& fileName, bool followFile, bool addToRecent )
 {
     LOG_DEBUG << "loadFile ( " << fileName.toStdString() << " )";
 
@@ -1784,7 +1920,9 @@ bool MainWindow::loadFile( const QString& fileName, bool followFile )
             // of the loading, with no way to switch to another tab
             mainTabWidget_.setCurrentIndex( index );
 
-            addRecentFile( fileName );
+            if ( addToRecent ) {
+                addRecentFile( fileName );
+            }
             updateOpenedFilesMenu();
 
             const auto& config = Configuration::get();
@@ -2191,6 +2329,10 @@ void MainWindow::writeSettings()
         widget_list;
     for ( int i = 0; i < mainTabWidget_.count(); ++i ) {
         auto view = qobject_cast<const CrawlerWidget*>( mainTabWidget_.widget( i ) );
+        const auto fileName = session_.getFilename( view );
+        if ( multiFileTempPaths_.contains( fileName ) ) {
+            continue;
+        }
         widget_list.emplace_back( view, 0UL, view->context() );
     }
     session_.save( widget_list, saveGeometry() );
