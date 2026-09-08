@@ -6,11 +6,11 @@ EAPI=7
 inherit xdg cmake
 
 DESCRIPTION="A GUI application to browse and search through long and complex log files"
-HOMEPAGE="https://klogg.filimonov.dev"
+HOMEPAGE="https://loselog.filimonov.dev"
 MAJOR_VERSION=22.06
 SRC_URI="
-	https://github.com/variar/klogg/archive/refs/tags/v${MAJOR_VERSION}.tar.gz -> ${P}.tar.gz
-	https://github.com/variar/klogg/releases/download/v${MAJOR_VERSION}/${P}.deps.tar.gz
+	https://github.com/loseblue/loselog/archive/refs/tags/v${MAJOR_VERSION}.tar.gz -> ${P}.tar.gz
+	https://github.com/loseblue/loselog/releases/download/v${MAJOR_VERSION}/${P}.deps.tar.gz
 	"
 
 LICENSE="GPL-3+"
@@ -54,15 +54,15 @@ src_prepare() {
 }
 
 src_configure() {
-	export KLOGG_VERSION=${PV}
+	export LOSELOG_VERSION=${PV}
 	local mycmakeargs=(
 		-DCPM_SOURCE_CACHE=${WORKDIR}/cpm_cache
 		-DCPM_USE_LOCAL_PACKAGES=ON
 		-DWARNINGS_AS_ERRORS=OFF
-		-DKLOGG_USE_LTO=$(usex lto)
-		-DKLOGG_BUILD_TESTS=$(usex test)
-		-DKLOGG_USE_MIMALLOC=OFF
-		-DKLOGG_USE_SENTRY=OFF
+		-DLOSELOG_USE_LTO=$(usex lto)
+		-DLOSELOG_BUILD_TESTS=$(usex test)
+		-DLOSELOG_USE_MIMALLOC=OFF
+		-DLOSELOG_USE_SENTRY=OFF
 	)
 
 	cmake_src_configure

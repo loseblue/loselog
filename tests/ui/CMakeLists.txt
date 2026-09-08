@@ -9,14 +9,14 @@ if(NOT APPLE)
     LIST(APPEND UI_TEST_SOURCES  ${CMAKE_CURRENT_SOURCE_DIR}/mainwindow_test.cpp)
 endif()
 
-add_executable(klogg_itests ${UI_TEST_SOURCES} ${BACKWARD_ENABLE})
+add_executable(loselog_itests ${UI_TEST_SOURCES} ${BACKWARD_ENABLE})
 
-target_link_libraries(klogg_itests klogg_ui klogg_utils Catch2 Qt${QT_VERSION_MAJOR}::Test test_utils)
-set_target_properties(klogg_itests PROPERTIES AUTOMOC ON)
+target_link_libraries(loselog_itests loselog_ui loselog_utils Catch2 Qt${QT_VERSION_MAJOR}::Test test_utils)
+set_target_properties(loselog_itests PROPERTIES AUTOMOC ON)
 
-add_backward(klogg_itests)
+add_backward(loselog_itests)
 
 add_test(
-    NAME klogg_itests
-    COMMAND klogg_itests -platform offscreen
+    NAME loselog_itests
+    COMMAND loselog_itests -platform offscreen
 )

@@ -64,12 +64,12 @@ void Overview::updateView( unsigned height )
     }
 }
 
-const klogg::vector<Overview::WeightedLine>* Overview::getMatchLines() const
+const loselog::vector<Overview::WeightedLine>* Overview::getMatchLines() const
 {
     return &matchLines_;
 }
 
-const klogg::vector<Overview::WeightedLine>* Overview::getMarkLines() const
+const loselog::vector<Overview::WeightedLine>* Overview::getMarkLines() const
 {
     return &markLines_;
 }

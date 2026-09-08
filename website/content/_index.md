@@ -5,26 +5,26 @@ type: docs
 
 ## Faster log explorer
 
-_klogg_ is an open source multi-platform GUI application to search through all kinds of text log files using regular expressions. It has started as fork of [glogg project](https://glogg.bonnefon.org/) created by [Nicolas Bonnefon](https://github.com/nickbnf), and has evolved into a separate project with a lot of new features and improvements.
+_loselog_ is an open source multi-platform GUI application to search through all kinds of text log files using regular expressions. It has started as fork of [glogg project](https://glogg.bonnefon.org/) created by [Nicolas Bonnefon](https://github.com/nickbnf), and has evolved into a separate project with a lot of new features and improvements.
 
-_klogg_ is designed to:
+_loselog_ is designed to:
 
  - be very fast
  - handle huge log files
  - provide a clear view of the matches even in heavily cluttered files.
 
-Here is what _klogg_ looks like:
+Here is what _loselog_ looks like:
 
 <div id="gallery" style="display:none;">
-<img src="/screenshots/mainwindow.png" alt="Klogg main window" />
-<img src="/screenshots/dark.png" alt="Klogg dark theme" />
-<img src="/screenshots/scratchpad.png" alt="Klogg scratchpad" />
-<img src="/screenshots/highlighters.png" alt="Klogg highlighters configuration" />
+<img src="/screenshots/mainwindow.png" alt="Loselog main window" />
+<img src="/screenshots/dark.png" alt="Loselog dark theme" />
+<img src="/screenshots/scratchpad.png" alt="Loselog scratchpad" />
+<img src="/screenshots/highlighters.png" alt="Loselog highlighters configuration" />
 </div>
 
 ## Features
 {{< columns >}}
- _klogg_ inherited a lot of features from _glogg_
+ _loselog_ inherited a lot of features from _glogg_
 
  - Runs on Unix-like systems, Windows and Mac thanks to Qt5
  - Displays search results separately from original file
@@ -36,7 +36,7 @@ Here is what _klogg_ looks like:
 
 <--->
 
-_klogg_ improves and brings more
+_loselog_ improves and brings more
 
  - Is optimized for modern CPUs with multiple cores and SIMD instructions
  - Has portable version (no need to install)
@@ -53,14 +53,14 @@ _klogg_ improves and brings more
 
 Latest stable version:
 
-[ ![GitHub Release](https://img.shields.io/github/v/release/variar/klogg?label=GitHub%20Release&style=for-the-badge)](https://github.com/variar/klogg/releases/latest)
-[ ![Chocolatey](https://img.shields.io/chocolatey/v/klogg?style=for-the-badge)](https://chocolatey.org/packages/klogg)
-[ ![Homebrew](https://img.shields.io/homebrew/cask/v/klogg?style=for-the-badge)](https://formulae.brew.sh/cask/klogg)
+[ ![GitHub Release](https://img.shields.io/github/v/release/loseblue/loselog?label=GitHub%20Release&style=for-the-badge)](https://github.com/loseblue/loselog/releases/latest)
+[ ![Chocolatey](https://img.shields.io/chocolatey/v/loselog?style=for-the-badge)](https://chocolatey.org/packages/loselog)
+[ ![Homebrew](https://img.shields.io/homebrew/cask/v/loselog?style=for-the-badge)](https://formulae.brew.sh/cask/loselog)
 
 
 Latest development builds can be downloaded from releases on Github: 
 
-{{< button href="https://github.com/variar/klogg/releases/tag/continuous-win" >}}Windows{{< /button >}}
-{{< button href="https://github.com/variar/klogg/releases/tag/continuous-linux" >}}Linux{{< /button >}}
-{{< button href="https://github.com/variar/klogg/releases/tag/continuous-osx" >}}Mac{{< /button >}}
+{{< button href="https://github.com/loseblue/loselog/releases/tag/continuous-win" >}}Windows{{< /button >}}
+{{< button href="https://github.com/loseblue/loselog/releases/tag/continuous-linux" >}}Linux{{< /button >}}
+{{< button href="https://github.com/loseblue/loselog/releases/tag/continuous-osx" >}}Mac{{< /button >}}
 

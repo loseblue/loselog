@@ -1,7 +1,7 @@
 .\release\*.dll
-.\release\klogg_portable.exe
-.\release\klogg_crashpad_handler.exe
-.\release\klogg_minidump_dump.exe
+.\release\loselog_portable.exe
+.\release\loselog_crashpad_handler.exe
+.\release\loselog_minidump_dump.exe
 .\release\documentation.html
 .\release\COPYING
 .\release\NOTICE

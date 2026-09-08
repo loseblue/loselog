@@ -1,20 +1,20 @@
 /*
  * Copyright (C) 2021 Anton Filimonov
  *
- * This file is part of klogg.
+ * This file is part of loselog.
  *
- * klogg is free software: you can redistribute it and/or modify
+ * loselog is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * klogg is distributed in the hope that it will be useful,
+ * loselog is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with klogg.  If not, see <http://www.gnu.org/licenses/>.
+ * along with loselog.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <QDesktopServices>
@@ -26,7 +26,7 @@
 #include <string>
 #include <tbb/version.h>
 
-#include "klogg_version.h"
+#include "loselog_version.h"
 
 #include "issuereporter.h"
 
@@ -34,7 +34,7 @@ static constexpr auto DetailsFooter
     = "-------------------------\n"
       "Useful extra information\n"
       "-------------------------\n"
-      "> Klogg version %1 (built on %2 from commit %3) [built for %4]\n"
+      "> Loselog version %1 (built on %2 from commit %3) [built for %4]\n"
       "> running on %5 (%6/%7) [%8], concurrency %9\n";
 
 static constexpr auto LibraryVersionsFooter = "> Qt %1, tbb %2";
@@ -69,7 +69,7 @@ void IssueReporter::askUserAndReportIssue( IssueTemplate issueTemplate, const QS
         = issueTemplate == IssueTemplate::Exception ? ExceptionAskUserAction : AskUserAction;
 
     if ( QMessageBox::Yes
-         == QMessageBox::question( nullptr, "Klogg", askAction, QMessageBox::Yes,
+         == QMessageBox::question( nullptr, "Loselog", askAction, QMessageBox::Yes,
                                    QMessageBox::No ) ) {
         IssueReporter::reportIssue( issueTemplate, information );
     }
@@ -91,9 +91,9 @@ void IssueReporter::reportIssue( IssueTemplate issueTemplate, const QString& inf
         break;
     }
 
-    const auto version = kloggVersion();
-    const auto buildDate = kloggBuildDate();
-    const auto commit = kloggCommit();
+    const auto version = loselogVersion();
+    const auto buildDate = loselogBuildDate();
+    const auto commit = loselogCommit();
 
     const auto os = QSysInfo::prettyProductName();
     const auto kernelType = QSysInfo::kernelType();
@@ -111,7 +111,7 @@ void IssueReporter::reportIssue( IssueTemplate issueTemplate, const QString& inf
     QUrlQuery query;
     query.addQueryItem( "body", body );
 
-    QUrl url( "https://github.com/variar/klogg/issues/new" );
+    QUrl url( "https://github.com/loseblue/loselog/issues/new" );
     url.setQuery( query );
     QDesktopServices::openUrl( url );
 }

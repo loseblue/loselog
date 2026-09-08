@@ -2,8 +2,8 @@
 // Created by omni on 16.12.2019.
 //
 
-#ifndef KLOGG_ENCODINGS_H
-#define KLOGG_ENCODINGS_H
+#ifndef LOSELOG_ENCODINGS_H
+#define LOSELOG_ENCODINGS_H
 
 #ifdef Q_OS_WIN
 #define WIN32_LEAN_AND_MEAN
@@ -48,14 +48,14 @@ class EncodingMenu {
         const auto supportedEncodings = EncodingMenu::supportedEncodings();
         const auto defaultEncodingMib = Configuration::get().defaultEncodingMib();
 
-        using namespace klogg::mainwindow;
+        using namespace loselog::mainwindow;
         QMenu* encodingsMenu = new QMenu(
-            QApplication::translate( "klogg::mainwindow::menu", menu::encodingTitle ) );
+            QApplication::translate( "loselog::mainwindow::menu", menu::encodingTitle ) );
 
         auto autoEncoding = encodingsMenu->addAction(
-            QApplication::translate( "klogg::mainwindow::action", action::autoEncodingText ) );
+            QApplication::translate( "loselog::mainwindow::action", action::autoEncodingText ) );
         autoEncoding->setStatusTip(
-            QApplication::translate( "klogg::mainwindow::action", action::autoEncodingStatusTip ) );
+            QApplication::translate( "loselog::mainwindow::action", action::autoEncodingStatusTip ) );
         autoEncoding->setCheckable( true );
         autoEncoding->setActionGroup( actionGroup );
         autoEncoding->setChecked( defaultEncodingMib < 0 );
@@ -101,4 +101,4 @@ class EncodingMenu {
     }
 };
 
-#endif // KLOGG_ENCODINGS_H
+#endif // LOSELOG_ENCODINGS_H

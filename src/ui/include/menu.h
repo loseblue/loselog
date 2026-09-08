@@ -17,8 +17,8 @@
  * along with glogg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef KLOGG_MENU_H
-#define KLOGG_MENU_H
+#ifndef LOSELOG_MENU_H
+#define LOSELOG_MENU_H
 
 #include <QMenu>
 #include <QObject>
@@ -74,4 +74,4 @@ class HoverMenu : public QMenu {
     bool mouseInMenu_;
 };
 
-#endif // KLOGG_MENU_H
+#endif // LOSELOG_MENU_H

@@ -20,20 +20,20 @@
 /*
  * Copyright (C) 2016 -- 2019 Anton Filimonov and other contributors
  *
- * This file is part of klogg.
+ * This file is part of loselog.
  *
- * klogg is free software: you can redistribute it and/or modify
+ * loselog is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * klogg is distributed in the hope that it will be useful,
+ * loselog is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with klogg.  If not, see <http://www.gnu.org/licenses/>.
+ * along with loselog.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef LINEPOSITIONARRAY_H
@@ -97,9 +97,9 @@ public:
         return at( i.get() );
     }
 
-    klogg::vector<OffsetInFile> range( LineNumber firstLine, LinesCount count ) const
+    loselog::vector<OffsetInFile> range( LineNumber firstLine, LinesCount count ) const
     {
-        klogg::vector<OffsetInFile> result;
+        loselog::vector<OffsetInFile> result;
         result.reserve( count.get() );
         const int64_t beginIndex = static_cast<int64_t>( firstLine.get() );
         const int64_t endIndex = std::min( beginIndex + static_cast<int64_t>( count.get() ),
@@ -123,13 +123,13 @@ public:
         storage_.pop_back();
     }
 
-    operator const klogg::vector<OffsetInFile>&() const
+    operator const loselog::vector<OffsetInFile>&() const
     {
         return storage_;
     }
 
 private:
-    klogg::vector<OffsetInFile> storage_;
+    loselog::vector<OffsetInFile> storage_;
 };
 
 // This class is a list of end of lines position,
@@ -188,7 +188,7 @@ public:
         return pos;
     }
 
-    klogg::vector<OffsetInFile> range( LineNumber firstLine, LinesCount count ) const
+    loselog::vector<OffsetInFile> range( LineNumber firstLine, LinesCount count ) const
     {
         return array.range( firstLine, count );
     }

@@ -36,7 +36,7 @@ cpmaddpackage(
   YES
 )
 
-if(KLOGG_USE_HYPERSCAN)
+if(LOSELOG_USE_HYPERSCAN)
   cpmaddpackage(
     NAME
     hyperscan
@@ -48,10 +48,10 @@ if(KLOGG_USE_HYPERSCAN)
     YES
   )
   message("Adding alias for hyperscan")
-  add_library(klogg_hyperscan INTERFACE)
-  target_link_libraries(klogg_hyperscan INTERFACE hs)
-  target_include_directories(klogg_hyperscan INTERFACE ${hyperscan_SOURCE_DIR}/src)
-elseif(KLOGG_USE_VECTORSCAN)
+  add_library(loselog_hyperscan INTERFACE)
+  target_link_libraries(loselog_hyperscan INTERFACE hs)
+  target_include_directories(loselog_hyperscan INTERFACE ${hyperscan_SOURCE_DIR}/src)
+elseif(LOSELOG_USE_VECTORSCAN)
   cpmaddpackage(
     NAME
     vectorscan
@@ -76,9 +76,9 @@ elseif(KLOGG_USE_VECTORSCAN)
   )
  
   message("Adding alias for vectorscan")
-  add_library(klogg_vectorscan INTERFACE)
-  target_link_libraries(klogg_vectorscan INTERFACE hs)
-  target_include_directories(klogg_vectorscan INTERFACE 
+  add_library(loselog_vectorscan INTERFACE)
+  target_link_libraries(loselog_vectorscan INTERFACE hs)
+  target_include_directories(loselog_vectorscan INTERFACE 
     ${vectorscan_SOURCE_DIR}/src
     ${vectorscan_BINARY_DIR}
   )
@@ -98,13 +98,13 @@ cpmaddpackage(
 )
 if(Uchardet_ADDED)
   message("Adding alias for uchardet")
-  add_library(klogg_uchardet_wrapper INTERFACE)
-  target_link_libraries(klogg_uchardet_wrapper INTERFACE libuchardet)
-  target_include_directories(klogg_uchardet_wrapper INTERFACE ${Uchardet_SOURCE_DIR}/src)
+  add_library(loselog_uchardet_wrapper INTERFACE)
+  target_link_libraries(loselog_uchardet_wrapper INTERFACE libuchardet)
+  target_include_directories(loselog_uchardet_wrapper INTERFACE ${Uchardet_SOURCE_DIR}/src)
 else()
-  add_library(klogg_uchardet_wrapper INTERFACE)
-  target_link_libraries(klogg_uchardet_wrapper INTERFACE ${UCHARDET_LIBRARY})
-  target_include_directories(klogg_uchardet_wrapper INTERFACE ${UCHARDET_INCLUDE_DIR})
+  add_library(loselog_uchardet_wrapper INTERFACE)
+  target_link_libraries(loselog_uchardet_wrapper INTERFACE ${UCHARDET_LIBRARY})
+  target_include_directories(loselog_uchardet_wrapper INTERFACE ${UCHARDET_INCLUDE_DIR})
 endif()
 
 if(${QT_VERSION_MAJOR} EQUAL 6) 
@@ -121,12 +121,14 @@ cpmaddpackage(
   EXCLUDE_FROM_ALL
   YES
 )
-if(NOT KF5Archive_ADDED)
+if(TARGET klogg_karchive AND NOT TARGET loselog_karchive)
+  add_library(loselog_karchive INTERFACE)
+  target_link_libraries(loselog_karchive INTERFACE klogg_karchive)
+elseif(NOT TARGET loselog_karchive)
   find_package(KF5Archive)
-  add_library(klogg_karchive INTERFACE)
-  target_link_libraries(klogg_karchive INTERFACE KF5::Archive)
+  add_library(loselog_karchive INTERFACE)
+  target_link_libraries(loselog_karchive INTERFACE KF5::Archive)
 endif()
-
 if(${QT_VERSION_MAJOR} EQUAL 6)
 message("Resetting CPM_USE_LOCAL_PACKAGES to ${_TMP_CPM_USE_LOCAL_PACKAGES}")
 set(CPM_USE_LOCAL_PACKAGES ${_TMP_CPM_USE_LOCAL_PACKAGES})
@@ -148,7 +150,7 @@ if(NOT TARGET robin_hood)
   target_include_directories(robin_hood INTERFACE ${ROBIN_HOOD_INCLUDE_DIRS})
 endif(NOT TARGET robin_hood)
 
-if(KLOGG_BUILD_TESTS)
+if(LOSELOG_BUILD_TESTS)
   cpmaddpackage("gh:bombela/backward-cpp@1.6")
   cpmaddpackage(
     NAME
@@ -328,18 +330,18 @@ cpmaddpackage(
 )
 if(mimalloc_ADDED)
   message("Adding alias for mimalloc")
-  add_library(klogg_mimalloc_wrapper INTERFACE)
-  target_link_libraries(klogg_mimalloc_wrapper INTERFACE mimalloc-static)
-  target_include_directories(klogg_mimalloc_wrapper INTERFACE ${mimalloc_SOURCE_DIR}/include)
+  add_library(loselog_mimalloc_wrapper INTERFACE)
+  target_link_libraries(loselog_mimalloc_wrapper INTERFACE mimalloc-static)
+  target_include_directories(loselog_mimalloc_wrapper INTERFACE ${mimalloc_SOURCE_DIR}/include)
 else()
-  add_library(klogg_mimalloc_wrapper INTERFACE)
-  target_link_libraries(klogg_mimalloc_wrapper INTERFACE ${MIMALLOC_LIBRARY})
-  target_include_directories(klogg_mimalloc_wrapper INTERFACE ${MIMALLOC_INCLUDE_DIR})
+  add_library(loselog_mimalloc_wrapper INTERFACE)
+  target_link_libraries(loselog_mimalloc_wrapper INTERFACE ${MIMALLOC_LIBRARY})
+  target_include_directories(loselog_mimalloc_wrapper INTERFACE ${MIMALLOC_INCLUDE_DIR})
 endif()
 
 set(CPM_USE_LOCAL_PACKAGES ${_TMP_CPM_USE_LOCAL_PACKAGES})
 
-if(KLOGG_USE_SENTRY)
+if(LOSELOG_USE_SENTRY)
   set(SENTRY_BACKEND
      "crashpad"
      CACHE INTERNAL "" FORCE
@@ -373,13 +375,13 @@ if(KLOGG_USE_SENTRY)
   )
 
   if(WIN32)
-    set_target_properties(crashpad_handler PROPERTIES OUTPUT_NAME "klogg_crashpad_handler.exe")
+    set_target_properties(crashpad_handler PROPERTIES OUTPUT_NAME "loselog_crashpad_handler.exe")
   else()
-    set_target_properties(crashpad_handler PROPERTIES OUTPUT_NAME "klogg_crashpad_handler")
+    set_target_properties(crashpad_handler PROPERTIES OUTPUT_NAME "loselog_crashpad_handler")
   endif()
-endif(KLOGG_USE_SENTRY)
+endif(LOSELOG_USE_SENTRY)
 
-set(klogg_cpm_targets
+set(loselog_cpm_targets
     xxhash
     Catch2
     roaring
@@ -403,7 +405,7 @@ set(klogg_cpm_targets
     streamvbyte
     FastPFor
 )
-foreach(target ${klogg_cpm_targets})
+foreach(target ${loselog_cpm_targets})
   if(TARGET ${target})
     get_property(
       ${target}_include_dirs

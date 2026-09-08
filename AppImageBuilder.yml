@@ -4,11 +4,11 @@ AppDir:
   path: AppDir
 
   app_info:
-    id: klogg
-    name: klogg
-    icon: klogg
+    id: loselog
+    name: loselog
+    icon: loselog
     version: latest
-    exec: usr/bin/klogg
+    exec: usr/bin/loselog
     exec_args: $@
 
   runtime:

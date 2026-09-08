@@ -20,20 +20,20 @@
 /*
  * Copyright (C) 2016 -- 2019 Anton Filimonov and other contributors
  *
- * This file is part of klogg.
+ * This file is part of loselog.
  *
- * klogg is free software: you can redistribute it and/or modify
+ * loselog is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * klogg is distributed in the hope that it will be useful,
+ * loselog is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with klogg.  If not, see <http://www.gnu.org/licenses/>.
+ * along with loselog.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 // This file implements MainWindow. It is responsible for creating and
@@ -97,7 +97,7 @@
 #include "highlightersdialog.h"
 #include "highlightersmenu.h"
 #include "issuereporter.h"
-#include "klogg_version.h"
+#include "loselog_version.h"
 #include "logger.h"
 #include "mainwindowtext.h"
 #include "openfilehelper.h"
@@ -199,7 +199,7 @@ MainWindow::MainWindow( WindowSession session )
     , signalMux_()
     , quickFindMux_( session_.getQuickFindPattern() )
     , mainTabWidget_()
-    , tempDir_( QDir::temp().filePath( "klogg_temp_" ) )
+    , tempDir_( QDir::temp().filePath( "loselog_temp_" ) )
 {
     createActions();
     createMenus();
@@ -212,10 +212,10 @@ MainWindow::MainWindow( WindowSession session )
     setGeometry( geometry.x() + 20, geometry.y() + 40, geometry.width() - 140,
                  geometry.height() - 140 );
 
-    mainIcon_.addFile( ":/images/hicolor/16x16/klogg.png" );
-    // mainIcon_.addFile( ":/images/hicolor/24x24/klogg.png" );
-    mainIcon_.addFile( ":/images/hicolor/32x32/klogg.png" );
-    mainIcon_.addFile( ":/images/hicolor/48x48/klogg.png" );
+    mainIcon_.addFile( ":/images/hicolor/16x16/loselog.png" );
+    // mainIcon_.addFile( ":/images/hicolor/24x24/loselog.png" );
+    mainIcon_.addFile( ":/images/hicolor/32x32/loselog.png" );
+    mainIcon_.addFile( ":/images/hicolor/48x48/loselog.png" );
 
     setWindowIcon( mainIcon_ );
     readSettings();
@@ -263,7 +263,7 @@ MainWindow::MainWindow( WindowSession session )
     mainTabWidget_.setTabsClosable( true );
 
     scratchPad_.setWindowIcon( mainIcon_ );
-    scratchPad_.setWindowTitle( tr( "klogg - scratchpad" ) );
+    scratchPad_.setWindowTitle( tr( "loselog - scratchpad" ) );
 
     connect( &mainTabWidget_, &TabbedCrawlerWidget::tabCloseRequested, this,
              [ this ]( int index ) { this->closeTab( index, ActionInitiator::User ); } );
@@ -361,10 +361,10 @@ void MainWindow::loadInitialFile( QString fileName, bool followFile )
 
 void MainWindow::reTranslateUI()
 {
-    using namespace klogg::mainwindow;
+    using namespace loselog::mainwindow;
     // menu
     auto transMenu = []( const char* text ) -> auto {
-        return QApplication::translate( "klogg::mainwindow::menu", text );
+        return QApplication::translate( "loselog::mainwindow::menu", text );
     };
     fileMenu->setTitle( transMenu( menu::fileTitle ) );
     editMenu->setTitle( transMenu( menu::editTitle ) );
@@ -377,11 +377,11 @@ void MainWindow::reTranslateUI()
 
     // toolbar
     toolBar->setToolTip(
-        QApplication::translate( "klogg::mainwindow::toolbar", toolbar::toolbarTitle ) );
+        QApplication::translate( "loselog::mainwindow::toolbar", toolbar::toolbarTitle ) );
 
     // action
     auto transAction = []( const char* text ) -> auto {
-        return QApplication::translate( "klogg::mainwindow::action", text );
+        return QApplication::translate( "loselog::mainwindow::action", text );
     };
     newWindowAction->setText( transAction( action::newWindowText ) );
     newWindowAction->setStatusTip( transAction( action::newWindowStatusTip ) );
@@ -487,8 +487,8 @@ void MainWindow::reTranslateUI()
         transAction( action::predefinedFiltersDialogStatusTip ) );
 
     // trayIcon
-    trayIcon_->setToolTip( QApplication::translate( "klogg::mainwindow::trayicon",
-                                                    klogg::mainwindow::trayicon::trayiconTip ) );
+    trayIcon_->setToolTip( QApplication::translate( "loselog::mainwindow::trayicon",
+                                                    loselog::mainwindow::trayicon::trayiconTip ) );
 }
 
 int MainWindow::installLanguage( QString lang )
@@ -531,7 +531,7 @@ void MainWindow::createActions()
     const auto& config = Configuration::get();
     const auto shortcuts = config.shortcuts();
 
-    using namespace klogg::mainwindow;
+    using namespace loselog::mainwindow;
 
     newWindowAction = new QAction( tr( action::newWindowText ), this );
     newWindowAction->setStatusTip( tr( action::newWindowStatusTip ) );
@@ -812,7 +812,7 @@ void MainWindow::loadIcons()
 
 void MainWindow::createMenus()
 {
-    using namespace klogg::mainwindow;
+    using namespace loselog::mainwindow;
 
     fileMenu = menuBar()->addMenu( tr( menu::fileTitle ) );
     fileMenu->setToolTipsVisible( true );
@@ -924,8 +924,8 @@ void MainWindow::createToolBars()
     lineNbField->setAlignment( Qt::AlignRight | Qt::AlignVCenter );
     lineNbField->setContentsMargins( 2, 0, 2, 0 );
 
-    toolBar = addToolBar( QApplication::translate( "klogg::mainwindow::toolbar",
-                                                   klogg::mainwindow::toolbar::toolbarTitle ) );
+    toolBar = addToolBar( QApplication::translate( "loselog::mainwindow::toolbar",
+                                                   loselog::mainwindow::toolbar::toolbarTitle ) );
     toolBar->setIconSize( QSize( 16, 16 ) );
     toolBar->setMovable( false );
     toolBar->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
@@ -969,7 +969,7 @@ void MainWindow::createTrayIcon()
     } );
 
     trayIcon_->setIcon( mainIcon_ );
-    trayIcon_->setToolTip( tr( klogg::mainwindow::trayicon::trayiconTip ) );
+    trayIcon_->setToolTip( tr( loselog::mainwindow::trayicon::trayiconTip ) );
     trayIcon_->setContextMenu( trayMenu );
 
     connect( trayIcon_, &QSystemTrayIcon::activated,
@@ -1051,11 +1051,11 @@ void MainWindow::openRemoteFile( const QUrl& url )
             loadFile( tempFile->fileName() );
         }
         else {
-            QMessageBox::critical( this, tr( "Klogg - File download" ), downloader.lastError() );
+            QMessageBox::critical( this, tr( "Loselog - File download" ), downloader.lastError() );
         }
     }
     else {
-        QMessageBox::critical( this, tr( "Klogg - File download" ),
+        QMessageBox::critical( this, tr( "Loselog - File download" ),
                                tr( "Failed to create temp file" ) );
     }
 }
@@ -1081,7 +1081,7 @@ void MainWindow::openFileFromRecent( QAction* action )
     }
     else {
         const auto userAction = QMessageBox::question(
-            this, tr( "klogg - remove from recent" ),
+            this, tr( "loselog - remove from recent" ),
             tr( "Could not read file %1. Remove it from recent files?" ).arg( filename ),
             QMessageBox::Yes | QMessageBox::No, QMessageBox::No );
 
@@ -1103,7 +1103,7 @@ void MainWindow::openFileFromFavorites( QAction* action )
     }
     else {
         const auto userAction = QMessageBox::question(
-            this, tr( "klogg - remove from favorites" ),
+            this, tr( "loselog - remove from favorites" ),
             tr( "Could not read file %1. Remove it from favorites?" ).arg( filename ),
             QMessageBox::Yes | QMessageBox::No, QMessageBox::No );
 
@@ -1138,7 +1138,7 @@ void MainWindow::closeAll( ActionInitiator initiator )
 void MainWindow::selectAll()
 {
     if ( infoLine->hasFocus() ) {
-        infoLine->setSelection( 0, klogg::isize( infoLine->text() ) );
+        infoLine->setSelection( 0, loselog::isize( infoLine->text() ) );
     }
     else if ( auto current = currentCrawlerWidget(); current != nullptr ) {
         current->selectAll();
@@ -1175,7 +1175,7 @@ void MainWindow::clearLog()
 {
     const auto current_file = session_.getFilename( currentCrawlerWidget() );
     if ( QMessageBox::warning(
-             this, tr( "klogg - clear file" ),
+             this, tr( "loselog - clear file" ),
              tr( "Clear file %1? File content will be removed from disk, this is irreversible" )
                  .arg( current_file ) )
          == QMessageBox::Yes ) {
@@ -1208,7 +1208,7 @@ void MainWindow::tryOpenClipboard( int tryTimes )
         QTimer::singleShot( 50, [ tryTimes, this ]() { tryOpenClipboard( tryTimes - 1 ); } );
     }
     else {
-        auto tempFile = new QTemporaryFile( tempDir_.filePath( "klogg_clipboard" ), this );
+        auto tempFile = new QTemporaryFile( tempDir_.filePath( "loselog_clipboard" ), this );
         if ( tempFile->open() ) {
             tempFile->write( text.toUtf8() );
             tempFile->flush();
@@ -1286,18 +1286,18 @@ void MainWindow::options()
 void MainWindow::about()
 {
     QMessageBox::about(
-        this, tr( "About klogg" ),
-        tr( "<h2>klogg %1</h2>"
+        this, tr( "About loselog" ),
+        tr( "<h2>loselog %1</h2>"
             "<p>A fast, advanced log explorer.</p>"
             "<p>Built %2 from %3</p>"
-            "<p><a href=\"https://github.com/variar/klogg\">https://github.com/variar/klogg</a></p>"
+            "<p><a href=\"https://github.com/loseblue/loselog\">https://github.com/loseblue/loselog</a></p>"
             "<p>This is fork of glogg</p>"
             "<p><a href=\"http://glogg.bonnefon.org/\">http://glogg.bonnefon.org/</a></p>"
             "<p>Using icons from <a href=\"https://icons8.com\">icons8.com</a> project</p>"
             "<p>Copyright &copy; 2020 Nicolas Bonnefon, Anton Filimonov and other contributors</p>"
             "<p>You may modify and redistribute the program under the terms of the GPL (version 3 "
             "or later).</p>" )
-            .arg( kloggVersion(), kloggBuildDate(), kloggCommit() ) );
+            .arg( loselogVersion(), loselogBuildDate(), loselogCommit() ) );
 }
 
 void MainWindow::aboutQt()
@@ -1315,7 +1315,7 @@ void MainWindow::documentation()
         tb->setHtml( text );
         tb->setWindowFlags( Qt::Window );
         tb->setAttribute( Qt::WA_DeleteOnClose );
-        tb->setWindowTitle( tr( "klogg documentation" ) );
+        tb->setWindowTitle( tr( "loselog documentation" ) );
         tb->resize( this->width() / 2, this->height() );
         tb->show();
     }
@@ -1781,7 +1781,7 @@ bool MainWindow::extractAndLoadFile( const QString& fileName )
 
     if ( !config.extractArchivesAlways() ) {
         const auto userChoice
-            = QMessageBox::question( this, tr( "klogg" ), tr( "Extract archive to temp folder?" ) );
+            = QMessageBox::question( this, tr( "loselog" ), tr( "Extract archive to temp folder?" ) );
         if ( userChoice == QMessageBox::No ) {
             return false;
         }
@@ -1820,7 +1820,7 @@ bool MainWindow::extractAndLoadFile( const QString& fileName )
         }
         else {
             QMessageBox::warning(
-                this, tr( "klogg" ),
+                this, tr( "loselog" ),
                 tr( "Failed to decompress %1" ).arg( QDir::toNativeSeparators( fileName ) ) );
         }
     }
@@ -1845,7 +1845,7 @@ bool MainWindow::extractAndLoadFile( const QString& fileName )
         }
         else {
             QMessageBox::warning(
-                this, tr( "klogg" ),
+                this, tr( "loselog" ),
                 tr( "Failed to extract %1" ).arg( QDir::toNativeSeparators( fileName ) ) );
         }
     }
@@ -1970,8 +1970,8 @@ void MainWindow::updateTitleBar( const QString& file_name )
         indexPart = QString( " #%1" ).arg( session_.windowIndex() + 1 );
     }
 
-    setWindowTitle( tr( "%1 - %2%3" ).arg( shownName, tr( "klogg" ), indexPart ) + tr( " (build " )
-                    + kloggVersion() + ")" );
+    setWindowTitle( tr( "%1 - %2%3" ).arg( shownName, tr( "loselog" ), indexPart ) + tr( " (build " )
+                    + loselogVersion() + ")" );
 }
 
 void MainWindow::addRecentFile( const QString& fileName )
@@ -2116,10 +2116,10 @@ void MainWindow::updateFavoritesMenu()
 
     addToFavoritesMenuAction->setIcon( iconLoader_.load( "icons8-star" ) );
 
-    using namespace klogg::mainwindow;
+    using namespace loselog::mainwindow;
 
     addToFavoritesAction->setText(
-        QApplication::translate( "klogg::mainwindow::action", action::addToFavoritesText ) );
+        QApplication::translate( "loselog::mainwindow::action", action::addToFavoritesText ) );
     addToFavoritesAction->setIcon( iconLoader_.load( "icons8-star" ) );
     addToFavoritesAction->setData( true );
 
@@ -2135,7 +2135,7 @@ void MainWindow::updateFavoritesMenu()
         if ( std::any_of( favorites.begin(), favorites.end(), FullPathComparator( path ) ) ) {
 
             addToFavoritesAction->setText( QApplication::translate(
-                "klogg::mainwindow::action", action::removeFromFavoritesText ) );
+                "loselog::mainwindow::action", action::removeFromFavoritesText ) );
             addToFavoritesAction->setIcon( iconLoader_.load( "icons8-star-filled" ) );
             addToFavoritesAction->setData( false );
 
@@ -2240,7 +2240,7 @@ void MainWindow::selectOpenedFile()
                     []( const auto& f ) { return f.nativeFullPath(); } );
 
     auto selectFileDialog = std::make_unique<QDialog>( this );
-    selectFileDialog->setWindowTitle( tr( "klogg -- switch to file" ) );
+    selectFileDialog->setWindowTitle( tr( "loselog -- switch to file" ) );
     selectFileDialog->setMinimumWidth( 800 );
     selectFileDialog->setMinimumHeight( 600 );
 
@@ -2396,8 +2396,8 @@ void MainWindow::logScreenInfo( QScreen* screen )
 void MainWindow::generateDump()
 {
     const auto userAction = QMessageBox::warning(
-        this, tr( "klogg - generate crash dump" ),
-        tr( "This will shutdown klogg and generate diagnostic crash dump. Continue?" ),
+        this, tr( "loselog - generate crash dump" ),
+        tr( "This will shutdown loselog and generate diagnostic crash dump. Continue?" ),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::No );
 
     if ( userAction == QMessageBox::Yes ) {

@@ -170,8 +170,8 @@
     <name>CrawlerWidget</name>
     <message>
         <location filename="../../ui/src/crawlerwidget.cpp" line="425"/>
-        <source>klogg</source>
-        <translation>klogg</translation>
+        <source>loselog</source>
+        <translation>loselog</translation>
     </message>
     <message>
         <location filename="../../ui/src/crawlerwidget.cpp" line="426"/>
@@ -473,18 +473,18 @@
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="2117"/>
-        <source>klogg -- switch to file</source>
-        <translation>klogg -- 切換到已開啟的檔案</translation>
+        <source>loselog -- switch to file</source>
+        <translation>loselog -- 切換到已開啟的檔案</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="2269"/>
-        <source>klogg - generate crash dump</source>
-        <translation>klogg - 產生當機記錄</translation>
+        <source>loselog - generate crash dump</source>
+        <translation>loselog - 產生當機記錄</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="2270"/>
-        <source>This will shutdown klogg and generate diagnostic crash dump. Continue?</source>
-        <translation>關閉 klogg 並產生診斷性的當機記錄。是否繼續？</translation>
+        <source>This will shutdown loselog and generate diagnostic crash dump. Continue?</source>
+        <translation>關閉 loselog 並產生診斷性的當機記錄。是否繼續？</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="871"/>
@@ -493,8 +493,8 @@
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="196"/>
-        <source>klogg - scratchpad</source>
-        <translation>klogg - 便條</translation>
+        <source>loselog - scratchpad</source>
+        <translation>loselog - 便條</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="740"/>
@@ -525,8 +525,8 @@
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="966"/>
         <location filename="../../ui/src/mainwindow.cpp" line="970"/>
-        <source>Klogg - File download</source>
-        <translation>klogg -- 檔案下載</translation>
+        <source>Loselog - File download</source>
+        <translation>loselog -- 檔案下載</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="971"/>
@@ -535,8 +535,8 @@
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="996"/>
-        <source>klogg - remove from recent</source>
-        <translation>klogg - 從最近檔案中移除</translation>
+        <source>loselog - remove from recent</source>
+        <translation>loselog - 從最近檔案中移除</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="997"/>
@@ -545,8 +545,8 @@
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="1018"/>
-        <source>klogg - remove from favorites</source>
-        <translation>klogg - 從書籤中移除</translation>
+        <source>loselog - remove from favorites</source>
+        <translation>loselog - 從書籤中移除</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="1019"/>
@@ -555,8 +555,8 @@
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="1093"/>
-        <source>klogg - clear file</source>
-        <translation>klogg - 清除檔案內容</translation>
+        <source>loselog - clear file</source>
+        <translation>loselog - 清除檔案內容</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="1094"/>
@@ -570,13 +570,13 @@
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="1205"/>
-        <source>About klogg</source>
-        <translation>關於 klogg</translation>
+        <source>About loselog</source>
+        <translation>關於 loselog</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="1206"/>
-        <source>&lt;h2&gt;klogg %1&lt;/h2&gt;&lt;p&gt;A fast, advanced log explorer.&lt;/p&gt;&lt;p&gt;Built %2 from %3&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/variar/klogg&quot;&gt;https://github.com/variar/klogg&lt;/a&gt;&lt;/p&gt;&lt;p&gt;This is fork of glogg&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://glogg.bonnefon.org/&quot;&gt;http://glogg.bonnefon.org/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Using icons from &lt;a href=&quot;https://icons8.com&quot;&gt;icons8.com&lt;/a&gt; project&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2020 Nicolas Bonnefon, Anton Filimonov and other contributors&lt;/p&gt;&lt;p&gt;You may modify and redistribute the program under the terms of the GPL (version 3 or later).&lt;/p&gt;</source>
-        <translation>&lt;h2&gt;klogg %1&lt;/h2&gt;&lt;p&gt;一款快速、先進的日誌檢視器。&lt;/p&gt;&lt;p&gt;建構於 %2 來自 %3&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/variar/klogg&quot;&gt;https://github.com/variar/klogg&lt;/a&gt;&lt;/p&gt;&lt;p&gt;這是 glogg 的分支&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://glogg.bonnefon.org/&quot;&gt;http://glogg.bonnefon.org/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;使用來自 &lt;a href=&quot;https://icons8.com&quot;&gt;icons8.com&lt;/a&gt; 專案的圖示&lt;/p&gt;&lt;p&gt;版權 &amp;copy; 2020 Nicolas Bonnefon, Anton Filimonov 和其他貢獻者&lt;/p&gt;&lt;p&gt;您可以根據 GPL-3（或更新的版本）的條款修改和重新散佈該程式。&lt;/p&gt;</translation>
+        <source>&lt;h2&gt;loselog %1&lt;/h2&gt;&lt;p&gt;A fast, advanced log explorer.&lt;/p&gt;&lt;p&gt;Built %2 from %3&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/loseblue/loselog&quot;&gt;https://github.com/loseblue/loselog&lt;/a&gt;&lt;/p&gt;&lt;p&gt;This is fork of glogg&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://glogg.bonnefon.org/&quot;&gt;http://glogg.bonnefon.org/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Using icons from &lt;a href=&quot;https://icons8.com&quot;&gt;icons8.com&lt;/a&gt; project&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2020 Nicolas Bonnefon, Anton Filimonov and other contributors&lt;/p&gt;&lt;p&gt;You may modify and redistribute the program under the terms of the GPL (version 3 or later).&lt;/p&gt;</source>
+        <translation>&lt;h2&gt;loselog %1&lt;/h2&gt;&lt;p&gt;一款快速、先進的日誌檢視器。&lt;/p&gt;&lt;p&gt;建構於 %2 來自 %3&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/loseblue/loselog&quot;&gt;https://github.com/loseblue/loselog&lt;/a&gt;&lt;/p&gt;&lt;p&gt;這是 glogg 的分支&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://glogg.bonnefon.org/&quot;&gt;http://glogg.bonnefon.org/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;使用來自 &lt;a href=&quot;https://icons8.com&quot;&gt;icons8.com&lt;/a&gt; 專案的圖示&lt;/p&gt;&lt;p&gt;版權 &amp;copy; 2020 Nicolas Bonnefon, Anton Filimonov 和其他貢獻者&lt;/p&gt;&lt;p&gt;您可以根據 GPL-3（或更新的版本）的條款修改和重新散佈該程式。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="1221"/>
@@ -585,8 +585,8 @@
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="1234"/>
-        <source>klogg documentation</source>
-        <translation>klogg 文件</translation>
+        <source>loselog documentation</source>
+        <translation>loselog 文件</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="1695"/>
@@ -608,8 +608,8 @@
         <location filename="../../ui/src/mainwindow.cpp" line="1680"/>
         <location filename="../../ui/src/mainwindow.cpp" line="1705"/>
         <location filename="../../ui/src/mainwindow.cpp" line="1828"/>
-        <source>klogg</source>
-        <translation>klogg</translation>
+        <source>loselog</source>
+        <translation>loselog</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="1328"/>
@@ -686,8 +686,8 @@
     <name>OptionsDialog</name>
     <message>
         <location filename="../../ui/include/optionsdialog.ui" line="20"/>
-        <source>Klogg preferences</source>
-        <translation>Klogg 偏好設定</translation>
+        <source>Loselog preferences</source>
+        <translation>Loselog 偏好設定</translation>
     </message>
     <message>
         <location filename="../../ui/include/optionsdialog.ui" line="33"/>
@@ -1046,8 +1046,8 @@
     </message>
     <message>
         <location filename="../../ui/src/optionsdialog.cpp" line="574"/>
-        <source>Klogg needs to be restarted to apply some changes. </source>
-        <translation>Klogg 需要關閉後重新開啟才能套用這些更改</translation>
+        <source>Loselog needs to be restarted to apply some changes. </source>
+        <translation>Loselog 需要關閉後重新開啟才能套用這些更改</translation>
     </message>
     <message>
         <location filename="../../ui/src/optionsdialog.cpp" line="687"/>
@@ -1644,7 +1644,7 @@
     </message>
 </context>
 <context>
-    <name>klogg::mainwindow::action</name>
+    <name>loselog::mainwindow::action</name>
     <message>
         <location filename="../../ui/src/mainwindowtext.cpp" line="29"/>
         <source>&amp;New window</source>
@@ -1652,8 +1652,8 @@
     </message>
     <message>
         <location filename="../../ui/src/mainwindowtext.cpp" line="30"/>
-        <source>Create new klogg window</source>
-        <translation>建立新 klogg 視窗</translation>
+        <source>Create new loselog window</source>
+        <translation>建立新 loselog 視窗</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindowtext.cpp" line="31"/>
@@ -1902,8 +1902,8 @@
     </message>
     <message>
         <location filename="../../ui/src/mainwindowtext.cpp" line="85"/>
-        <source>Join Klogg development community at Discord</source>
-        <translation>加入 Klogg 開發者 Discord 社群</translation>
+        <source>Join Loselog development community at Discord</source>
+        <translation>加入 Loselog 開發者 Discord 社群</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindowtext.cpp" line="86"/>
@@ -1912,8 +1912,8 @@
     </message>
     <message>
         <location filename="../../ui/src/mainwindowtext.cpp" line="88"/>
-        <source>Join Klogg development community at Telegram</source>
-        <translation>加入 Klogg 開發者 Telegram 社群</translation>
+        <source>Join Loselog development community at Telegram</source>
+        <translation>加入 Loselog 開發者 Telegram 社群</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindowtext.cpp" line="89"/>
@@ -1972,7 +1972,7 @@
     </message>
 </context>
 <context>
-    <name>klogg::mainwindow::menu</name>
+    <name>loselog::mainwindow::menu</name>
     <message>
         <location filename="../../ui/src/mainwindowtext.cpp" line="12"/>
         <source>&amp;File</source>
@@ -2020,7 +2020,7 @@
     </message>
 </context>
 <context>
-    <name>klogg::mainwindow::toolbar</name>
+    <name>loselog::mainwindow::toolbar</name>
     <message>
         <location filename="../../ui/src/mainwindowtext.cpp" line="23"/>
         <source>&amp;Toolbar</source>
@@ -2028,11 +2028,11 @@
     </message>
 </context>
 <context>
-    <name>klogg::mainwindow::trayicon</name>
+    <name>loselog::mainwindow::trayicon</name>
     <message>
         <location filename="../../ui/src/mainwindowtext.cpp" line="26"/>
-        <source>klogg log viewer</source>
-        <translation>Klogg 日誌檢視器</translation>
+        <source>loselog log viewer</source>
+        <translation>Loselog 日誌檢視器</translation>
     </message>
 </context>
 </TS>

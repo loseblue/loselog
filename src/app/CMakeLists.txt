@@ -36,65 +36,65 @@ add_custom_target(lupdate
 )
 
 include(TranslationUtils)
-add_app_translations_resource(KLOGG_I18N_RES ${QM_FILES})
-add_qt_translations_resource(KLOGG_QT_TRANSLATION_RES zh_CN)
+add_app_translations_resource(LOSELOG_I18N_RES ${QM_FILES})
+add_qt_translations_resource(LOSELOG_QT_TRANSLATION_RES zh_CN)
 
 set(MAIN_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/cli.h
-                 ${CMAKE_CURRENT_SOURCE_DIR}/klogg.qrc 
-                 ${KLOGG_I18N_RES}
-                 ${KLOGG_QT_TRANSLATION_RES})
+                 ${CMAKE_CURRENT_SOURCE_DIR}/loselog.qrc 
+                 ${LOSELOG_I18N_RES}
+                 ${LOSELOG_QT_TRANSLATION_RES})
 
-set(KLOGG_UI_SOURCES
+set(LOSELOG_UI_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/messagereceiver.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/kloggapp.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/loselogapp.h
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
     ${DOCUMENTATION_RESOURCE}
     ${ICON_FILE}
 )
 
-set(KLOGG_GREP_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/klogg_grep.cpp)
+set(LOSELOG_GREP_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/loselog_grep.cpp)
 
 set(MAIN_LIBS
-    klogg_logdata
-    klogg_crash_handler
+    loselog_logdata
+    loselog_crash_handler
     roaring
     kdsingleapp
 )
 
-add_executable(klogg ${OS_BUNDLE} ${MAIN_SOURCES} ${KLOGG_UI_SOURCES})
-add_executable(klogg_portable ${OS_BUNDLE} ${MAIN_SOURCES} ${KLOGG_UI_SOURCES})
-add_executable(klogg_grep ${MAIN_SOURCES} ${KLOGG_GREP_SOURCES})
+add_executable(loselog ${OS_BUNDLE} ${MAIN_SOURCES} ${LOSELOG_UI_SOURCES})
+add_executable(loselog_portable ${OS_BUNDLE} ${MAIN_SOURCES} ${LOSELOG_UI_SOURCES})
+add_executable(loselog_grep ${MAIN_SOURCES} ${LOSELOG_GREP_SOURCES})
 
-add_dependencies(ci_build klogg klogg_grep)
-
-if(WIN32)
-  add_dependencies(ci_build klogg_portable)
-endif()
-
-set_target_properties(klogg PROPERTIES AUTORCC ON)
-set_target_properties(klogg PROPERTIES AUTOMOC ON)
-set_target_properties(klogg_portable PROPERTIES AUTORCC ON)
-set_target_properties(klogg_portable PROPERTIES AUTOMOC ON)
-set_target_properties(klogg_grep PROPERTIES AUTORCC ON)
-set_target_properties(klogg_grep PROPERTIES AUTOMOC ON)
-
-if(KLOGG_USE_LTO)
-  set_property(TARGET klogg PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
-  set_property(TARGET klogg_portable PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
-  set_property(TARGET klogg_grep PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
-endif()
-
-target_link_libraries(klogg PUBLIC ${MAIN_LIBS} klogg_ui)
-target_link_libraries(klogg_portable PUBLIC ${MAIN_LIBS} klogg_ui)
-target_link_libraries(klogg_grep PUBLIC ${MAIN_LIBS})
-
-target_compile_definitions(klogg_portable PUBLIC -DKLOGG_PORTABLE)
+add_dependencies(ci_build loselog loselog_grep)
 
 if(WIN32)
+  add_dependencies(ci_build loselog_portable)
+endif()
 
-  target_sources(klogg PRIVATE ${ProductVersionResourceFiles})
-  target_sources(klogg_portable PRIVATE ${ProductVersionResourceFiles})
-  target_sources(klogg_grep PRIVATE ${ProductVersionResourceFiles})
+set_target_properties(loselog PROPERTIES AUTORCC ON)
+set_target_properties(loselog PROPERTIES AUTOMOC ON)
+set_target_properties(loselog_portable PROPERTIES AUTORCC ON)
+set_target_properties(loselog_portable PROPERTIES AUTOMOC ON)
+set_target_properties(loselog_grep PROPERTIES AUTORCC ON)
+set_target_properties(loselog_grep PROPERTIES AUTOMOC ON)
+
+if(LOSELOG_USE_LTO)
+  set_property(TARGET loselog PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+  set_property(TARGET loselog_portable PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+  set_property(TARGET loselog_grep PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+endif()
+
+target_link_libraries(loselog PUBLIC ${MAIN_LIBS} loselog_ui)
+target_link_libraries(loselog_portable PUBLIC ${MAIN_LIBS} loselog_ui)
+target_link_libraries(loselog_grep PUBLIC ${MAIN_LIBS})
+
+target_compile_definitions(loselog_portable PUBLIC -DLOSELOG_PORTABLE)
+
+if(WIN32)
+
+  target_sources(loselog PRIVATE ${ProductVersionResourceFiles})
+  target_sources(loselog_portable PRIVATE ${ProductVersionResourceFiles})
+  target_sources(loselog_grep PRIVATE ${ProductVersionResourceFiles})
 
 elseif(APPLE)
   set_source_files_properties(${ICON_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
@@ -117,7 +117,7 @@ elseif(APPLE)
 endif()
 
 install(
-  TARGETS klogg
+  TARGETS loselog
   DESTINATION ${CMAKE_INSTALL_BINDIR}
   BUNDLE DESTINATION .
 )
@@ -125,137 +125,137 @@ install(
 if(WIN32)
   if(TARGET tbb)
     add_custom_command(
-      TARGET klogg
+      TARGET loselog
       POST_BUILD
-      COMMAND cmake -E copy $<TARGET_FILE:tbb> $<TARGET_FILE_DIR:klogg>
+      COMMAND cmake -E copy $<TARGET_FILE:tbb> $<TARGET_FILE_DIR:loselog>
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       COMMENT "Copy tbb"
     )
   endif()
   if(TARGET tbbmalloc_proxy)
     add_custom_command(
-      TARGET klogg
+      TARGET loselog
       POST_BUILD
-      COMMAND cmake -E copy $<TARGET_FILE:tbbmalloc> $<TARGET_FILE_DIR:klogg>
+      COMMAND cmake -E copy $<TARGET_FILE:tbbmalloc> $<TARGET_FILE_DIR:loselog>
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       COMMENT "Copy tbbmalloc"
     )
     add_custom_command(
-      TARGET klogg
+      TARGET loselog
       POST_BUILD
-      COMMAND cmake -E copy $<TARGET_FILE:tbbmalloc_proxy> $<TARGET_FILE_DIR:klogg>
+      COMMAND cmake -E copy $<TARGET_FILE:tbbmalloc_proxy> $<TARGET_FILE_DIR:loselog>
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       COMMENT "Copy tbbmalloc_proxy"
     )
   endif()
 endif()
 
-if(KLOGG_USE_SENTRY)
+if(LOSELOG_USE_SENTRY)
   if(NOT WIN32)
     if(APPLE)
       find_program(DSYMUTIL dsymutil)
       add_custom_command(
-        TARGET klogg
+        TARGET loselog
         POST_BUILD
-        COMMAND ${DSYMUTIL} --out=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/klogg.dSym $<TARGET_FILE:klogg>
+        COMMAND ${DSYMUTIL} --out=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/loselog.dSym $<TARGET_FILE:loselog>
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        COMMENT "Generating symbols for $<TARGET_FILE:klogg>"
+        COMMENT "Generating symbols for $<TARGET_FILE:loselog>"
       )
 
       add_custom_command(
-        TARGET klogg_portable
+        TARGET loselog_portable
         POST_BUILD
-        COMMAND ${DSYMUTIL} --out=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/klogg_portable.dSym $<TARGET_FILE:klogg_portable>
+        COMMAND ${DSYMUTIL} --out=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/loselog_portable.dSym $<TARGET_FILE:loselog_portable>
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        COMMENT "Generating symbols for $<TARGET_FILE:klogg_portable>"
+        COMMENT "Generating symbols for $<TARGET_FILE:loselog_portable>"
       )
     else()
       find_program(OBJCOPY objcopy)
       add_custom_command(
-        TARGET klogg
+        TARGET loselog
         POST_BUILD
-        COMMAND ${OBJCOPY} --only-keep-debug --compress-debug-sections=zlib $<TARGET_FILE:klogg>
-                ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/klogg.debug
+        COMMAND ${OBJCOPY} --only-keep-debug --compress-debug-sections=zlib $<TARGET_FILE:loselog>
+                ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/loselog.debug
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        COMMENT "Generating symbols for $<TARGET_FILE:klogg>"
+        COMMENT "Generating symbols for $<TARGET_FILE:loselog>"
       )
       add_custom_command(
-        TARGET klogg
+        TARGET loselog
         POST_BUILD
-        COMMAND ${OBJCOPY} --strip-debug --strip-unneeded $<TARGET_FILE:klogg>
+        COMMAND ${OBJCOPY} --strip-debug --strip-unneeded $<TARGET_FILE:loselog>
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        COMMENT "Stripping $<TARGET_FILE:klogg>"
+        COMMENT "Stripping $<TARGET_FILE:loselog>"
       )
       add_custom_command(
-        TARGET klogg
+        TARGET loselog
         POST_BUILD
-        COMMAND ${OBJCOPY} --add-gnu-debuglink=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/klogg.debug $<TARGET_FILE:klogg>
+        COMMAND ${OBJCOPY} --add-gnu-debuglink=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/loselog.debug $<TARGET_FILE:loselog>
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        COMMENT "Linking symbols for $<TARGET_FILE:klogg>"
+        COMMENT "Linking symbols for $<TARGET_FILE:loselog>"
       )
 
       add_custom_command(
-        TARGET klogg_portable
+        TARGET loselog_portable
         POST_BUILD
-        COMMAND ${OBJCOPY} --only-keep-debug $<TARGET_FILE:klogg_portable>
-                ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/klogg_portable.debug
+        COMMAND ${OBJCOPY} --only-keep-debug $<TARGET_FILE:loselog_portable>
+                ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/loselog_portable.debug
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        COMMENT "Generating symbols for $<TARGET_FILE:klogg>"
+        COMMENT "Generating symbols for $<TARGET_FILE:loselog>"
       )
       add_custom_command(
-        TARGET klogg_portable
+        TARGET loselog_portable
         POST_BUILD
-        COMMAND ${OBJCOPY} --strip-debug --strip-unneeded $<TARGET_FILE:klogg_portable>
+        COMMAND ${OBJCOPY} --strip-debug --strip-unneeded $<TARGET_FILE:loselog_portable>
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        COMMENT "Stripping $<TARGET_FILE:klogg_portable>"
+        COMMENT "Stripping $<TARGET_FILE:loselog_portable>"
       )
       add_custom_command(
-        TARGET klogg_portable
+        TARGET loselog_portable
         POST_BUILD
-        COMMAND ${OBJCOPY} --add-gnu-debuglink=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/klogg_portable.debug
-                $<TARGET_FILE:klogg_portable>
+        COMMAND ${OBJCOPY} --add-gnu-debuglink=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/loselog_portable.debug
+                $<TARGET_FILE:loselog_portable>
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        COMMENT "Linking symbols for $<TARGET_FILE:klogg_portable>"
+        COMMENT "Linking symbols for $<TARGET_FILE:loselog_portable>"
       )
     endif()
 
     add_custom_command(
-      TARGET klogg
+      TARGET loselog
       POST_BUILD
-      COMMAND cmake -E copy $<TARGET_FILE:crashpad_handler> $<TARGET_FILE_DIR:klogg>/klogg_crashpad_handler
+      COMMAND cmake -E copy $<TARGET_FILE:crashpad_handler> $<TARGET_FILE_DIR:loselog>/loselog_crashpad_handler
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       COMMENT "Copy crash_handler"
     )
 
     add_custom_command(
-      TARGET klogg
+      TARGET loselog
       POST_BUILD
-      COMMAND cmake -E copy ${SYMS_TOOLS}/minidump_dump $<TARGET_FILE_DIR:klogg>/klogg_minidump_dump
+      COMMAND cmake -E copy ${SYMS_TOOLS}/minidump_dump $<TARGET_FILE_DIR:loselog>/loselog_minidump_dump
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       COMMENT "Copy stackwalk"
     )
   else()
     add_custom_command(
-      TARGET klogg
+      TARGET loselog
       POST_BUILD
-      COMMAND cmake -E copy $<TARGET_FILE:crashpad_handler> $<TARGET_FILE_DIR:klogg>/klogg_crashpad_handler.exe
+      COMMAND cmake -E copy $<TARGET_FILE:crashpad_handler> $<TARGET_FILE_DIR:loselog>/loselog_crashpad_handler.exe
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       COMMENT "Copy crash_handler"
     )
 
     if(CMAKE_SIZEOF_VOID_P EQUAL 8)
       add_custom_command(
-        TARGET klogg
+        TARGET loselog
         POST_BUILD
-        COMMAND cmake -E copy ${SYMS_TOOLS}/minidump_dump_x64.exe $<TARGET_FILE_DIR:klogg>/klogg_minidump_dump.exe
+        COMMAND cmake -E copy ${SYMS_TOOLS}/minidump_dump_x64.exe $<TARGET_FILE_DIR:loselog>/loselog_minidump_dump.exe
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         COMMENT "Copy stackwalk"
       )
     else()
       add_custom_command(
-        TARGET klogg
+        TARGET loselog
         POST_BUILD
-        COMMAND cmake -E copy ${SYMS_TOOLS}/minidump_dump_x86.exe $<TARGET_FILE_DIR:klogg>/klogg_minidump_dump.exe
+        COMMAND cmake -E copy ${SYMS_TOOLS}/minidump_dump_x86.exe $<TARGET_FILE_DIR:loselog>/loselog_minidump_dump.exe
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         COMMENT "Copy stackwalk"
       )
@@ -263,12 +263,12 @@ if(KLOGG_USE_SENTRY)
   endif()
 
   if(APPLE)
-    install(PROGRAMS $<TARGET_FILE_DIR:klogg>/klogg_minidump_dump $<TARGET_FILE_DIR:klogg>/klogg_crashpad_handler
-            DESTINATION $<TARGET_BUNDLE_CONTENT_DIR:klogg>/MacOS
+    install(PROGRAMS $<TARGET_FILE_DIR:loselog>/loselog_minidump_dump $<TARGET_FILE_DIR:loselog>/loselog_crashpad_handler
+            DESTINATION $<TARGET_BUNDLE_CONTENT_DIR:loselog>/MacOS
     )
   elseif(NOT WIN32)
-    install(PROGRAMS $<TARGET_FILE_DIR:klogg>/klogg_minidump_dump $<TARGET_FILE_DIR:klogg>/klogg_crashpad_handler
+    install(PROGRAMS $<TARGET_FILE_DIR:loselog>/loselog_minidump_dump $<TARGET_FILE_DIR:loselog>/loselog_crashpad_handler
             DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
   endif()
-endif(KLOGG_USE_SENTRY)
+endif(LOSELOG_USE_SENTRY)

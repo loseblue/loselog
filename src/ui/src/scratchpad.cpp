@@ -1,20 +1,20 @@
 /*
  * Copyright (C) 2019 Anton Filimonov and other contributors
  *
- * This file is part of klogg.
+ * This file is part of loselog.
  *
- * klogg is free software: you can redistribute it and/or modify
+ * loselog is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * klogg is distributed in the hope that it will be useful,
+ * loselog is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with klogg.  If not, see <http://www.gnu.org/licenses/>.
+ * along with loselog.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "scratchpad.h"
@@ -42,7 +42,7 @@
 #include "crc32.h"
 #include "clipboard.h"
 
-namespace klogg {
+namespace loselog {
 
 class DateTimeBox : public QFormLayout {
   public:
@@ -59,7 +59,7 @@ class DateTimeBox : public QFormLayout {
     QLineEdit* timeLine_;
     QComboBox* tzComboBox_;
 };
-} // namespace klogg
+} // namespace loselog
 
 namespace {
 
@@ -149,7 +149,7 @@ ScratchPad::ScratchPad( QWidget* parent )
     addBoxToLayout( "File time", &fileTimeBox_, &ScratchPad::fileTime );
     addBoxToLayout( "Dec->Hex", &decToHexBox_, &ScratchPad::decToHex );
     addBoxToLayout( "Hex->Dec", &hexToDecBox_, &ScratchPad::hexToDec );
-    timeBox_ = new klogg::DateTimeBox();
+    timeBox_ = new loselog::DateTimeBox();
     transLayout->addRow( timeBox_ );
     connect( this, &ScratchPad::updateTransformation, [ this ]() {
         transformText( [ this ]( QString text ) { return timeBox_->displayTime( text ); } );
@@ -355,7 +355,7 @@ void ScratchPad::formatXml()
     } );
 }
 
-klogg::DateTimeBox::DateTimeBox()
+loselog::DateTimeBox::DateTimeBox()
     : QFormLayout()
     , timestamp_()
     , timeLine_( new QLineEdit() )
@@ -374,7 +374,7 @@ klogg::DateTimeBox::DateTimeBox()
     } );
 }
 
-QString klogg::DateTimeBox::displayTime( const QString& text )
+QString loselog::DateTimeBox::displayTime( const QString& text )
 {
     bool isOk = false;
     const auto unixTime = text.toUtf8().toLongLong( &isOk );
@@ -387,7 +387,7 @@ QString klogg::DateTimeBox::displayTime( const QString& text )
     return displayTime();
 }
 
-QString klogg::DateTimeBox::displayTime()
+QString loselog::DateTimeBox::displayTime()
 {
     if ( !timestamp_ ) {
         return QString{};

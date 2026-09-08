@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-Versions of Klogg that are currently supported with security updates:
+Versions of Loselog that are currently supported with security updates:
 
 | Version | Supported          |
 | ------- | ------------------ |

@@ -170,8 +170,8 @@
     <name>CrawlerWidget</name>
     <message>
         <location filename="../../ui/src/crawlerwidget.cpp" line="425"/>
-        <source>klogg</source>
-        <translation>klogg</translation>
+        <source>loselog</source>
+        <translation>loselog</translation>
     </message>
     <message>
         <location filename="../../ui/src/crawlerwidget.cpp" line="426"/>
@@ -473,8 +473,8 @@
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="196"/>
-        <source>klogg - scratchpad</source>
-        <translation>klogg - scratchpad</translation>
+        <source>loselog - scratchpad</source>
+        <translation>loselog - scratchpad</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="740"/>
@@ -505,8 +505,8 @@
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="966"/>
         <location filename="../../ui/src/mainwindow.cpp" line="970"/>
-        <source>Klogg - File download</source>
-        <translation>Klogg - File download</translation>
+        <source>Loselog - File download</source>
+        <translation>Loselog - File download</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="971"/>
@@ -515,8 +515,8 @@
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="996"/>
-        <source>klogg - remove from recent</source>
-        <translation>klogg - remove from recent</translation>
+        <source>loselog - remove from recent</source>
+        <translation>loselog - remove from recent</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="997"/>
@@ -525,8 +525,8 @@
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="1018"/>
-        <source>klogg - remove from favorites</source>
-        <translation>klogg - remove from favorites</translation>
+        <source>loselog - remove from favorites</source>
+        <translation>loselog - remove from favorites</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="1019"/>
@@ -535,8 +535,8 @@
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="1093"/>
-        <source>klogg - clear file</source>
-        <translation>klogg - clear file</translation>
+        <source>loselog - clear file</source>
+        <translation>loselog - clear file</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="1094"/>
@@ -550,13 +550,13 @@
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="1205"/>
-        <source>About klogg</source>
-        <translation>About klogg</translation>
+        <source>About loselog</source>
+        <translation>About loselog</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="1206"/>
-        <source>&lt;h2&gt;klogg %1&lt;/h2&gt;&lt;p&gt;A fast, advanced log explorer.&lt;/p&gt;&lt;p&gt;Built %2 from %3&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/variar/klogg&quot;&gt;https://github.com/variar/klogg&lt;/a&gt;&lt;/p&gt;&lt;p&gt;This is fork of glogg&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://glogg.bonnefon.org/&quot;&gt;http://glogg.bonnefon.org/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Using icons from &lt;a href=&quot;https://icons8.com&quot;&gt;icons8.com&lt;/a&gt; project&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2020 Nicolas Bonnefon, Anton Filimonov and other contributors&lt;/p&gt;&lt;p&gt;You may modify and redistribute the program under the terms of the GPL (version 3 or later).&lt;/p&gt;</source>
-        <translation>&lt;h2&gt;klogg %1&lt;/h2&gt;&lt;p&gt;A fast, advanced log explorer.&lt;/p&gt;&lt;p&gt;Built %2 from %3&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/variar/klogg&quot;&gt;https://github.com/variar/klogg&lt;/a&gt;&lt;/p&gt;&lt;p&gt;This is fork of glogg&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://glogg.bonnefon.org/&quot;&gt;http://glogg.bonnefon.org/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Using icons from &lt;a href=&quot;https://icons8.com&quot;&gt;icons8.com&lt;/a&gt; project&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2020 Nicolas Bonnefon, Anton Filimonov and other contributors&lt;/p&gt;&lt;p&gt;You may modify and redistribute the program under the terms of the GPL (version 3 or later).&lt;/p&gt;</translation>
+        <source>&lt;h2&gt;loselog %1&lt;/h2&gt;&lt;p&gt;A fast, advanced log explorer.&lt;/p&gt;&lt;p&gt;Built %2 from %3&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/loseblue/loselog&quot;&gt;https://github.com/loseblue/loselog&lt;/a&gt;&lt;/p&gt;&lt;p&gt;This is fork of glogg&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://glogg.bonnefon.org/&quot;&gt;http://glogg.bonnefon.org/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Using icons from &lt;a href=&quot;https://icons8.com&quot;&gt;icons8.com&lt;/a&gt; project&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2020 Nicolas Bonnefon, Anton Filimonov and other contributors&lt;/p&gt;&lt;p&gt;You may modify and redistribute the program under the terms of the GPL (version 3 or later).&lt;/p&gt;</source>
+        <translation>&lt;h2&gt;loselog %1&lt;/h2&gt;&lt;p&gt;A fast, advanced log explorer.&lt;/p&gt;&lt;p&gt;Built %2 from %3&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/loseblue/loselog&quot;&gt;https://github.com/loseblue/loselog&lt;/a&gt;&lt;/p&gt;&lt;p&gt;This is fork of glogg&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://glogg.bonnefon.org/&quot;&gt;http://glogg.bonnefon.org/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Using icons from &lt;a href=&quot;https://icons8.com&quot;&gt;icons8.com&lt;/a&gt; project&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2020 Nicolas Bonnefon, Anton Filimonov and other contributors&lt;/p&gt;&lt;p&gt;You may modify and redistribute the program under the terms of the GPL (version 3 or later).&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="1221"/>
@@ -565,8 +565,8 @@
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="1234"/>
-        <source>klogg documentation</source>
-        <translation>klogg documentation</translation>
+        <source>loselog documentation</source>
+        <translation>loselog documentation</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="1328"/>
@@ -603,8 +603,8 @@
         <location filename="../../ui/src/mainwindow.cpp" line="1680"/>
         <location filename="../../ui/src/mainwindow.cpp" line="1705"/>
         <location filename="../../ui/src/mainwindow.cpp" line="1828"/>
-        <source>klogg</source>
-        <translation>klogg</translation>
+        <source>loselog</source>
+        <translation>loselog</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="1641"/>
@@ -668,26 +668,26 @@
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="2117"/>
-        <source>klogg -- switch to file</source>
-        <translation>klogg -- switch to file</translation>
+        <source>loselog -- switch to file</source>
+        <translation>loselog -- switch to file</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="2269"/>
-        <source>klogg - generate crash dump</source>
-        <translation>klogg - generate crash dump</translation>
+        <source>loselog - generate crash dump</source>
+        <translation>loselog - generate crash dump</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindow.cpp" line="2270"/>
-        <source>This will shutdown klogg and generate diagnostic crash dump. Continue?</source>
-        <translation>This will shutdown klogg and generate diagnostic crash dump. Continue?</translation>
+        <source>This will shutdown loselog and generate diagnostic crash dump. Continue?</source>
+        <translation>This will shutdown loselog and generate diagnostic crash dump. Continue?</translation>
     </message>
 </context>
 <context>
     <name>OptionsDialog</name>
     <message>
         <location filename="../../ui/include/optionsdialog.ui" line="20"/>
-        <source>Klogg preferences</source>
-        <translation>Klogg preferences</translation>
+        <source>Loselog preferences</source>
+        <translation>Loselog preferences</translation>
     </message>
     <message>
         <location filename="../../ui/include/optionsdialog.ui" line="33"/>
@@ -1046,8 +1046,8 @@
     </message>
     <message>
         <location filename="../../ui/src/optionsdialog.cpp" line="574"/>
-        <source>Klogg needs to be restarted to apply some changes. </source>
-        <translation>Klogg needs to be restarted to apply some changes. </translation>
+        <source>Loselog needs to be restarted to apply some changes. </source>
+        <translation>Loselog needs to be restarted to apply some changes. </translation>
     </message>
     <message>
         <location filename="../../ui/src/optionsdialog.cpp" line="687"/>
@@ -1644,7 +1644,7 @@
     </message>
 </context>
 <context>
-    <name>klogg::mainwindow::action</name>
+    <name>loselog::mainwindow::action</name>
     <message>
         <location filename="../../ui/src/mainwindowtext.cpp" line="29"/>
         <source>&amp;New window</source>
@@ -1652,8 +1652,8 @@
     </message>
     <message>
         <location filename="../../ui/src/mainwindowtext.cpp" line="30"/>
-        <source>Create new klogg window</source>
-        <translation>Create new klogg window</translation>
+        <source>Create new loselog window</source>
+        <translation>Create new loselog window</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindowtext.cpp" line="31"/>
@@ -1902,8 +1902,8 @@
     </message>
     <message>
         <location filename="../../ui/src/mainwindowtext.cpp" line="85"/>
-        <source>Join Klogg development community at Discord</source>
-        <translation>Join Klogg development community at Discord</translation>
+        <source>Join Loselog development community at Discord</source>
+        <translation>Join Loselog development community at Discord</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindowtext.cpp" line="86"/>
@@ -1912,8 +1912,8 @@
     </message>
     <message>
         <location filename="../../ui/src/mainwindowtext.cpp" line="88"/>
-        <source>Join Klogg development community at Telegram</source>
-        <translation>Join Klogg development community at Telegram</translation>
+        <source>Join Loselog development community at Telegram</source>
+        <translation>Join Loselog development community at Telegram</translation>
     </message>
     <message>
         <location filename="../../ui/src/mainwindowtext.cpp" line="89"/>
@@ -1972,7 +1972,7 @@
     </message>
 </context>
 <context>
-    <name>klogg::mainwindow::menu</name>
+    <name>loselog::mainwindow::menu</name>
     <message>
         <location filename="../../ui/src/mainwindowtext.cpp" line="12"/>
         <source>&amp;File</source>
@@ -2020,7 +2020,7 @@
     </message>
 </context>
 <context>
-    <name>klogg::mainwindow::toolbar</name>
+    <name>loselog::mainwindow::toolbar</name>
     <message>
         <location filename="../../ui/src/mainwindowtext.cpp" line="23"/>
         <source>&amp;Toolbar</source>
@@ -2028,11 +2028,11 @@
     </message>
 </context>
 <context>
-    <name>klogg::mainwindow::trayicon</name>
+    <name>loselog::mainwindow::trayicon</name>
     <message>
         <location filename="../../ui/src/mainwindowtext.cpp" line="26"/>
-        <source>klogg log viewer</source>
-        <translation>klogg log viewer</translation>
+        <source>loselog log viewer</source>
+        <translation>loselog log viewer</translation>
     </message>
 </context>
 </TS>
