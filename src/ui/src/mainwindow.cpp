@@ -1289,10 +1289,10 @@ void MainWindow::about()
         this, tr( "About loselog" ),
         tr( "<h2>loselog %1</h2>"
             "<p>A fast, advanced log explorer.</p>"
+            "<p>Author: loseblue</p>"
+            "<p>Forked from klogg</p>"
             "<p>Built %2 from %3</p>"
             "<p><a href=\"https://github.com/loseblue/loselog\">https://github.com/loseblue/loselog</a></p>"
-            "<p>This is fork of glogg</p>"
-            "<p><a href=\"http://glogg.bonnefon.org/\">http://glogg.bonnefon.org/</a></p>"
             "<p>Using icons from <a href=\"https://icons8.com\">icons8.com</a> project</p>"
             "<p>Copyright &copy; 2020 Nicolas Bonnefon, Anton Filimonov and other contributors</p>"
             "<p>You may modify and redistribute the program under the terms of the GPL (version 3 "

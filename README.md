@@ -1,218 +1,82 @@
-![media_small](https://user-images.githubusercontent.com/1620716/119145300-2d98b800-ba52-11eb-8d87-abe72cf65dd1.png)
+# loselog
 
-[![GitHub license](https://img.shields.io/github/license/loseblue/loselog.svg?style=flat)](https://github.com/loseblue/loselog/blob/master/COPYING)
-[![C++](https://img.shields.io/github/languages/top/loseblue/loselog?style=flat)]()
-[![GitHub contributors](https://img.shields.io/github/contributors/loseblue/loselog.svg?style=flat)](https://github.com/loseblue/loselog/graphs/contributors/)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f6db6ef0be3a4a5abff94111a5291c45)](https://www.codacy.com/manual/loseblue/loselog?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=loseblue/loselog&amp;utm_campaign=Badge_Grade)
+A fast, cross-platform log viewer for large log files.
 
+![loselog main window](website/static/screenshots/mainwindow.png)
 
-[![Github all releases](https://img.shields.io/github/downloads/loseblue/loselog/total?style=flat)](https://github.com/loseblue/loselog/releases/)
-[ ![Github](https://img.shields.io/github/v/release/loseblue/loselog?style=flat&label=Stable%20release&)](https://github.com/loseblue/loselog/releases/latest)
-
-[![Packaging status](https://repology.org/badge/vertical-allrepos/loselog.svg)](https://repology.org/project/loselog/versions)
-
-Check [GitHub releases](https://github.com/loseblue/loselog/releases/latest) for Windows installers and Linux/Mac packages.
-
-Development status
-
-[![Next milestone](https://img.shields.io/github/milestones/progress-percent/loseblue/loselog/4?style=flat&)](https://github.com/loseblue/loselog/milestone/4)
-[![Ready for testing](https://img.shields.io/github/issues-raw/loseblue/loselog/status:%20ready%20for%20testing?color=green&label=issues%20ready%20for%20testing&style=flat)](https://github.com/loseblue/loselog/issues?q=is%3Aopen+is%3Aissue+label%3A%22status%3A+ready+for+testing%22)
-[![Need documentation](https://img.shields.io/github/issues-search/loseblue/loselog?color=yellow&label=features%20need%20documentation&query=is%3Aissue%20label%3A%22status%3A%20need%20documentation%22&style=flat)](https://github.com/loseblue/loselog/issues?q=is%3Aissue+label%3A%22status%3A+need+documentation%22)
-[![GitHub commits](https://img.shields.io/github/commits-since/loseblue/loselog/v22.06.svg?style=flat)](https://github.com/loseblue/loselog/commits/)
-[![CI Build and Release](https://github.com/loseblue/loselog/actions/workflows/ci-build.yml/badge.svg)](https://github.com/loseblue/loselog/actions/workflows/ci-build.yml)
-
-[![Chat on Discord](https://img.shields.io/discord/838452586944266260?label=Discord&style=flat)](https://discord.gg/DruNyQftzB) [![Join the chat at https://gitter.im/loselog_log_viewer/community](https://badges.gitter.im/loselog_log_viewer/community.svg)](https://gitter.im/loselog_log_viewer/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![GitHub license](https://img.shields.io/github/license/loseblue/loselog)](https://github.com/loseblue/loselog/blob/master/COPYING)
+[![GitHub release](https://img.shields.io/github/v/release/loseblue/loselog)](https://github.com/loseblue/loselog/releases/latest)
+[![C++](https://img.shields.io/badge/C%2B%2B-17-blue)]()
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)]()
 
 ## Overview
 
 Loselog is a multi-platform GUI application that helps browse and search
-through long and complex log files. It is designed with programmers and
-system administrators in mind and can be seen as a graphical, interactive
-combination of grep, less, and tail.
+through long and complex log files. It is designed with developers and system
+administrators in mind and can be seen as an interactive combination of
+`grep`, `less`, and `tail`.
 
-![Loselog main window](website/static/screenshots/mainwindow.png)
+Loselog is forked from [klogg](https://github.com/variar/klogg), a mature
+high-performance log viewer, and focuses on keeping the proven core stable
+while continuing maintenance and improvements.
 
-Please refer to the
-[documentation](DOCUMENTATION.md)
-page for how to use Loselog.
+**Author:** [loseblue](https://github.com/loseblue)
 
-### Latest testing builds
+## Features
 
-| Windows | Linux | Mac |
-| ------------- |------------- | ------------- |
-| [continuous-win](https://github.com/loseblue/loselog/releases/tag/continuous-win) | [continuous-linux](https://github.com/loseblue/loselog/releases/tag/continuous-linux) | [continuous-osx](https://github.com/loseblue/loselog/releases/tag/continuous-osx) |
+- Drag multiple log files into the window at the same time; the log contents will open in order of filename within a single Tab. 
+   - File -> Preference -> File -> Multi files in one tab
+- Reads files directly from disk without loading the whole file into memory
+- Handles huge text files, including 10+ GB logs
+- Fast regular-expression search with Hyperscan and Qt regex backends
+- Shows search results in a separate filtered view
+- Highlights matches and supports color labels for interesting lines
+- Opens archives, compressed files, and remote URLs
+- Detects text encoding automatically
+- Supports portable mode with settings stored next to the executable
 
-I try to keep a [changelog](CHANGELOG.md) with monthly changes. 
+## Downloads
 
-## Table of Contents
+The easiest way to get started is to download the latest release from the
+[GitHub releases page](https://github.com/loseblue/loselog/releases/latest).
 
-1. [About the Project](#about-the-project)
-1. [Installation](#installation)
-1. [Building](#building)
-1. [How to Get Help](#how-to-get-help)
-1. [Contributing](#contributing)
-1. [License](#license)
-1. [Authors](#authors)
+### Windows
 
-## About the Project
+- `loselog-*-x64-portable.zip`: unzip and run `loselog_portable.exe`
+- Setup installer: run `loselog-*-setup.exe`
 
-Loselog started as a fork of [glogg](https://github.com/nickbnf/glogg) - the fast, smart log explorer in 2016.
+### Linux and macOS
 
-Since then it has evolved from fixing small annoying bugs to rewriting core components to
-make it faster and smarter that predecessor.
+Prebuilt packages are published on the releases page when available.
+Otherwise, build from source using the instructions below.
 
-Development of loselog is driven by features my colleagues and I need
-to stay productive as well as feature requests from users on Github and in glogg mailing list.
+## Usage
 
-Latest news about loselog development can be found at https://loselog.filimonov.dev.
+Run `loselog` from a terminal and optionally pass a file to open:
 
-### Comparing with glogg
-
-Loselog has all best features of glogg:
-
-* Runs on Unix-like systems, Windows and Mac thanks to Qt5
-* Is fast and reads the file directly from disk, without loading it into memory
-* Can operate on huge text files (10+ Gb is not a problem)
-* Search results are displayed separately from original file
-* Supports Perl-compatible regular expressions
-* Colorizes the log and search results
-* Displays a context view of where in the log the lines of interest are
-* Watches for file changes on disk and reloads it (kind of like tail)
-* Is open source, released under the GPL
-
-And on top of that loselog:
-
-* Is heavily optimized using multi-threading and SIMD
-* Supports files with more than 2147483647 lines
-* Includes much faster regular expressions search (2-4 times)
-* Allows combining regular expressions with boolean operators (AND, OR, NOT)
-* Supports many common text encodings
-* Detects file encoding automatically using [uchardet](https://www.freedesktop.org/wiki/Software/uchardet/) library (supports utf8, utf16, cp1251 and more) 
-* Can limit search operations to some part of huge file
-* Allows to configure several highlighters sets and switch between them
-* Has a list of configurable predefined regular expression patterns
-* Includes a dark mode
-* Has configurable shortcuts
-* Has a scratchpad window for taking notes and doing basic data transformations
-* Provides lots of small features that make life easier (closing tabs, copying file paths, favorite files menu, etc.)
-
-Here is a small demo showing how much faster loselog is (searching in ~1Gb file stored on tmpfs):
-
-https://user-images.githubusercontent.com/1620716/117588567-bea39100-b12c-11eb-990a-90a667bcaeaa.mp4
-
-List of glogg issues that have been fixed/implemented in loselog can be found [here](https://github.com/loseblue/loselog/discussions/302).
-
-List of all changes can be found [here](https://github.com/loseblue/loselog/milestone/8?closed=1).
-
-**[Back to top](#table-of-contents)**
-
-## Installation
-
-This project uses [Calendar Versioning](https://calver.org/). For a list of available versions, see the [repository tag list](https://github.com/loseblue/loselog/tags).
-
-### Current stable release builds
-
-Binaries for all platforms can be downloaded from GitHub releases.
-
-[ ![Release](https://img.shields.io/github/v/release/loseblue/loselog?style=flat)](https://github.com/loseblue/loselog/releases/latest)
-
-#### Windows
-Windows installer is also available from:
-
-* [ ![Chocolatey](https://img.shields.io/chocolatey/v/loselog?style=flat)](https://chocolatey.org/packages/loselog)
-* [ ![Scoop Extras bucket](https://img.shields.io/scoop/v/loselog?bucket=extras)](https://scoopsearch.github.io/#/apps?q=loselog)
-* [Winget package](https://winget.run/pkg/loseblue/loselog) 
-
-#### Mac OS
-Package for Mac can be installed from Homebrew
-
-[ ![homebrew cask](https://img.shields.io/homebrew/cask/v/loselog?style=flat)](https://formulae.brew.sh/cask/loselog)
-
-#### Linux
-It is recommended to use loselog package from distribution-specific [repositories](https://repology.org/project/loselog/versions).
-
-Generic packages are available from loselog DEB and RPM repositories hosted at GitHub Pages.
-They are built to run on Ubuntu 18.04/20.04/22.04 and Oracle Linux 7/8 (x86-64 only).
-
-For DEB packages first download the gpg key:
-```
-curl -sS https://loselog.filimonov.dev/loselog.gpg.key | gpg --dearmor | sudo tee /etc/apt/keyrings/loselog.gpg
+```sh
+loselog path/to/logfile.log
 ```
 
-You might need to manually create `/etc/apt/keyrings` directory.
-
-Then download the repository list file for you distribution (replace `<ubuntu_release>` with one of `bionic`, `focal`, `jammy`):
-```
-curl -sS https://loselog.filimonov.dev/deb/loselog.<ubuntu_release>.list | sudo tee /etc/apt/sources.list.d/loselog.list
-```
-
-Finally, install using apt
-```
-sudo apt-get update
-sudo apt install loselog
-```
-
-If there is already an entry for JFrogg hosted loselog repository in `/etc/apt/sources.list`, then remove this line from it:
-```
-deb [trusted=yes] https://favpackage.jfrog.io/artifactory/loselog_deb/ <ubuntu_release> utils
-```
-
-For RPM download loselog repo file (replace `<oracle_release>` with one of `7`, `8`):
-```
-curl -sS https://loselog.filimonov.dev/rpm/loselog-oracle-<oracle_release>.repo | sudo tee /etc/yum.repos.d/loselog-rpm.repo
-```
-
-Then install using yum
-```
-sudo yum update
-sudo yum install loselog
-```
-
-There is also an AppImage package that can be used without installation. To run loselog from AppImage, download the package and make in executable with either a file manager or terminal command `chmod +x <path_to_loselog_AppImage>` and then run the AppImage file.
-
-AppImage uses FUSE2 and Ubuntu 22.04 has moved away from FUSE2 into FUSE3 and therefore you need to install the necessary package to enable compatibility with FUSE2 `sudo apt install libfuse2`.
-
-As indicated by this link from the official appimage documentation: https://docs.appimage.org/user-guide/troubleshooting/fuse.html#setting-up-fuse-2-x-alongside-of-fuse-3-x-on-recent-ubuntu-22-04-debian-and-their-derivatives
-
-### Testing builds
-
-![CI Build and Release](https://github.com/loseblue/loselog/workflows/CI%20Build%20and%20Release/badge.svg)
-
-| Windows | Linux | Mac |
-| ------------- |------------- | ------------- |
-| [continuous-win](https://github.com/loseblue/loselog/releases/tag/continuous-win) | [continuous-linux](https://github.com/loseblue/loselog/releases/tag/continuous-linux) | [continuous-osx](https://github.com/loseblue/loselog/releases/tag/continuous-osx) |
-
-**[Back to top](#table-of-contents)**
+See [DOCUMENTATION.md](DOCUMENTATION.md) for detailed usage, search patterns,
+settings, and keyboard shortcuts.
 
 ## Building
 
-Please review
-[BUILD.md](BUILD.md)
-for how to setup Loselog on your local machine for development and testing purposes.
-
-## How to Get Help
-
-First, please refer to the
-[documentation](DOCUMENTATION.md)
-page.
-
-You can open issues using [loselog issues page](https://github.com/loseblue/loselog/issues)
-or post questions to glogg development [mailing list](http://groups.google.co.uk/group/glogg-devel).
+Please see [BUILD.md](BUILD.md) for the supported build environment and
+step-by-step instructions.
 
 ## Contributing
 
-We encourage public contributions! Please review [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and development process.
+Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md)
+before opening issues or pull requests.
 
 ## License
 
-This project is licensed under the GPLv3 or later - see [COPYING](COPYING) file for details.
+Loselog is licensed under the GPL version 3 or later. See
+[COPYING](COPYING) for the full license text.
 
-## Authors
+## Credits
 
-* **[Anton Filimonov](https://github.com/variar)**
-* *Initial work* - **[Nicolas Bonnefon](https://github.com/nickbnf)**
-
-See also the list of [contributors](https://loselog.filimonov.dev/docs/getting_involved/#contributors) who participated in this project.
-
-**[Back to top](#table-of-contents)**
+Loselog is maintained by [loseblue](https://github.com/loseblue) and is forked
+from [klogg](https://github.com/variar/klogg).
