@@ -226,6 +226,8 @@ class QuickFind : public QObject {
     Portion doSearchForward( const Selection& selection, const QuickFindMatcher& matcher );
     Portion doSearchForward( const FilePosition& start_position, const Selection& selection,
                              const QuickFindMatcher& matcher );
+    Portion doSearchForward( const FilePosition& start_position, const Selection& selection,
+                             const QuickFindMatcher& matcher, bool wrapSearch );
     Portion doSearchBackward( const Selection& selection, const QuickFindMatcher& matcher );
     Portion doSearchBackward( const FilePosition& start_position, const Selection& selection,
                               const QuickFindMatcher& matcher );

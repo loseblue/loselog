@@ -280,7 +280,7 @@ void QuickFind::searchBackward( Selection selection, QuickFindMatcher matcher )
 
 Portion QuickFind::doSearchForward( const Selection& selection, const QuickFindMatcher& matcher )
 {
-    return doSearchForward( selection.getNextPosition(), selection, matcher );
+    return doSearchForward( selection.getNextPosition(), selection, matcher, true );
 }
 
 // Internal implementation of forward search,
@@ -288,6 +288,16 @@ Portion QuickFind::doSearchForward( const Selection& selection, const QuickFindM
 // Parameters are the position the search shall start
 Portion QuickFind::doSearchForward( const FilePosition& start_position, const Selection& selection,
                                     const QuickFindMatcher& matcher )
+{
+    return doSearchForward( start_position, selection, matcher, false );
+}
+
+// Internal implementation of forward search,
+// returns the line where the pattern is found or -1 if not found.
+// Parameters are the position the search shall start. When wrapSearch is
+// true, a search reaching the end of file continues from the beginning.
+Portion QuickFind::doSearchForward( const FilePosition& start_position, const Selection& selection,
+                                    const QuickFindMatcher& matcher, bool wrapSearch )
 {
     interruptRequested_.clear();
 
@@ -300,12 +310,14 @@ Portion QuickFind::doSearchForward( const FilePosition& start_position, const Se
 
     // Optimisation: if we are already after the last match,
     // we don't do any search at all.
-    if ( lastMatch_.isLater( start_position ) ) {
+    if ( !wrapSearch && lastMatch_.isLater( start_position ) ) {
         // Send a notification
         sendNotification( QFNotificationReachedEndOfFile() );
 
         return {};
     }
+
+    const auto nb_lines = logData_.getNbLine();
 
     auto line = start_position.line();
     LOG_DEBUG << "Start searching at line " << line;
@@ -318,7 +330,6 @@ Portion QuickFind::doSearchForward( const FilePosition& start_position, const Se
     else {
         searchingNotifier_.reset();
         // And then the rest of the file
-        const auto nb_lines = logData_.getNbLine();
         ++line;
         while ( line < nb_lines ) {
             if ( matcher.isLineMatching( logData_.getExpandedLineString( line ) ) ) {
@@ -326,6 +337,29 @@ Portion QuickFind::doSearchForward( const FilePosition& start_position, const Se
                 found = true;
                 break;
             }
+            ++line;
+
+            // See if we need to notify of the ongoing search
+            searchingNotifier_.ping( line, nb_lines, false );
+
+            if ( interruptRequested_ ) {
+                break;
+            }
+        }
+    }
+
+    if ( !found && wrapSearch && !interruptRequested_ ) {
+        LOG_DEBUG << "Wrap search from beginning";
+        searchingNotifier_.reset();
+
+        line = 0_lnum;
+        while ( line < nb_lines && line <= start_position.line() ) {
+            if ( matcher.isLineMatching( logData_.getExpandedLineString( line ) ) ) {
+                std::tie( found_start_col, found_end_col ) = matcher.getLastMatch();
+                found = true;
+                break;
+            }
+
             ++line;
 
             // See if we need to notify of the ongoing search

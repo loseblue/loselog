@@ -29,6 +29,7 @@ while continuing maintenance and improvements.
 - Reads files directly from disk without loading the whole file into memory
 - Handles huge text files, including 10+ GB logs
 - Fast regular-expression search with Hyperscan and Qt regex backends
+- Quick find wraps forward searches around the end of the file
 - Shows search results in a separate filtered view
 - Highlights matches and supports color labels for interesting lines
 - Opens archives, compressed files, and remote URLs
