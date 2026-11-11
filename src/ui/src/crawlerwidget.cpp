@@ -58,6 +58,7 @@
 #include <QKeySequence>
 #include <QLineEdit>
 #include <QListView>
+#include <QMouseEvent>
 #include <QShortcut>
 #include <QStandardItemModel>
 #include <QStringListModel>
@@ -88,10 +89,11 @@ public:
     // Construct from the stored string representation
     explicit CrawlerWidgetContext( const QString& string );
     // Construct from the value passsed
-    CrawlerWidgetContext( QList<int> sizes, bool ignoreCase, bool autoRefresh, bool followFile,
-                          bool useRegexp, bool inverseRegexp, bool useBooleanCombination,
-                          QList<LineNumber> markedLines )
+    CrawlerWidgetContext( QList<int> sizes, Qt::Edge filteredPanelDockEdge, bool ignoreCase,
+                          bool autoRefresh, bool followFile, bool useRegexp, bool inverseRegexp,
+                          bool useBooleanCombination, QList<LineNumber> markedLines )
         : sizes_( sizes )
+        , filteredPanelDockEdge_( filteredPanelDockEdge )
         , ignoreCase_( ignoreCase )
         , autoRefresh_( autoRefresh )
         , followFile_( followFile )
@@ -110,6 +112,11 @@ public:
     QList<int> sizes() const
     {
         return sizes_;
+    }
+
+    Qt::Edge filteredPanelDockEdge() const
+    {
+        return filteredPanelDockEdge_;
     }
 
     bool ignoreCase() const
@@ -148,6 +155,7 @@ private:
 
 private:
     QList<int> sizes_;
+    Qt::Edge filteredPanelDockEdge_ = Qt::BottomEdge;
 
     bool ignoreCase_;
     bool autoRefresh_;
@@ -340,6 +348,7 @@ void CrawlerWidget::doSetViewContext( const QString& view_context )
 
     const auto context = CrawlerWidgetContext{ view_context };
 
+    setFilteredPanelDockEdge( context.filteredPanelDockEdge() );
     setSizes( context.sizes() );
     matchCaseButton_->setChecked( !context.ignoreCase() );
     useRegexpButton_->setChecked( context.useRegexp() );
@@ -361,8 +370,9 @@ void CrawlerWidget::doSetViewContext( const QString& view_context )
 std::shared_ptr<const ViewContextInterface> CrawlerWidget::doGetViewContext() const
 {
     auto context = std::make_shared<const CrawlerWidgetContext>(
-        sizes(), ( !matchCaseButton_->isChecked() ), searchRefreshButton_->isChecked(),
-        logMainView_->isFollowEnabled(), useRegexpButton_->isChecked(), inverseButton_->isChecked(),
+        sizes(), filteredPanelDockEdge_, ( !matchCaseButton_->isChecked() ),
+        searchRefreshButton_->isChecked(), logMainView_->isFollowEnabled(),
+        useRegexpButton_->isChecked(), inverseButton_->isChecked(),
         booleanButton_->isChecked(), logFilteredData_->getMarks() );
 
     return static_cast<std::shared_ptr<const ViewContextInterface>>( context );
@@ -964,8 +974,8 @@ void CrawlerWidget::setup()
     assert( logFilteredData_ );
 
     // The views
-    auto bottomWindow = new QWidget;
-    bottomWindow->setContentsMargins( 2, 0, 2, 0 );
+    bottomWindow_ = new QWidget;
+    bottomWindow_->setContentsMargins( 2, 0, 2, 0 );
 
     overviewWidget_ = new OverviewWidget();
     logMainView_
@@ -1150,12 +1160,22 @@ void CrawlerWidget::setup()
 
     auto* bottomMainLayout = new QVBoxLayout;
     bottomMainLayout->addLayout( searchLineLayout );
+
+    filteredPanelDragHandle_ = new QFrame;
+    filteredPanelDragHandle_->setFrameShape( QFrame::HLine );
+    filteredPanelDragHandle_->setFrameShadow( QFrame::Sunken );
+    filteredPanelDragHandle_->setFixedHeight( 6 );
+    filteredPanelDragHandle_->setCursor( Qt::SizeAllCursor );
+    filteredPanelDragHandle_->setToolTip( tr( "Drag to dock filtered view" ) );
+    filteredPanelDragHandle_->installEventFilter( this );
+
+    bottomMainLayout->addWidget( filteredPanelDragHandle_ );
     bottomMainLayout->addWidget( tabbedFilteredView_ );
     bottomMainLayout->setContentsMargins( 2, 2, 2, 2 );
-    bottomWindow->setLayout( bottomMainLayout );
+    bottomWindow_->setLayout( bottomMainLayout );
 
     addWidget( logMainView_ );
-    addWidget( bottomWindow );
+    addWidget( bottomWindow_ );
 
     // Default search checkboxes
     auto& config = Configuration::get();
@@ -1331,10 +1351,159 @@ void CrawlerWidget::filteredViewDestroyed( QObject* view )
 
 void CrawlerWidget::saveSplitterSizes() const
 {
+    if ( orientation() != Qt::Vertical || indexOf( logMainView_ ) != 0 ) {
+        return;
+    }
+
     LOG_INFO << "Saving default splitter size";
     auto& splitterConfig = Configuration::get();
     splitterConfig.setSplitterSizes( sizes() );
     splitterConfig.save();
+}
+
+Qt::Edge CrawlerWidget::closestFilteredPanelDockEdge( const QPoint& globalPos ) const
+{
+    const QPoint mainTopLeft = logMainView_->mapToGlobal( QPoint( 0, 0 ) );
+    const QRect mainRect( mainTopLeft, logMainView_->size() );
+
+    const auto topDistance = qAbs( globalPos.y() - mainRect.top() );
+    const auto bottomDistance = qAbs( globalPos.y() - mainRect.bottom() );
+    const auto leftDistance = qAbs( globalPos.x() - mainRect.left() );
+    const auto rightDistance = qAbs( globalPos.x() - mainRect.right() );
+
+    auto minDistance = topDistance;
+    auto edge = Qt::TopEdge;
+
+    if ( bottomDistance < minDistance ) {
+        minDistance = bottomDistance;
+        edge = Qt::BottomEdge;
+    }
+    if ( leftDistance < minDistance ) {
+        minDistance = leftDistance;
+        edge = Qt::LeftEdge;
+    }
+    if ( rightDistance < minDistance ) {
+        minDistance = rightDistance;
+        edge = Qt::RightEdge;
+    }
+
+    return edge;
+}
+
+void CrawlerWidget::setFilteredPanelDockEdge( Qt::Edge edge )
+{
+    if ( logMainView_ == nullptr || bottomWindow_ == nullptr ) {
+        return;
+    }
+
+    if ( edge != Qt::TopEdge && edge != Qt::LeftEdge && edge != Qt::RightEdge
+         && edge != Qt::BottomEdge ) {
+        return;
+    }
+
+    if ( edge == filteredPanelDockEdge_ ) {
+        return;
+    }
+
+    const auto oldOrientation = orientation();
+    const auto oldMainFirst = indexOf( logMainView_ ) < indexOf( bottomWindow_ );
+    const auto oldSizes = sizes();
+
+    const auto newOrientation
+        = ( edge == Qt::TopEdge || edge == Qt::BottomEdge ) ? Qt::Vertical : Qt::Horizontal;
+    const auto mainFirst = ( edge == Qt::BottomEdge || edge == Qt::RightEdge );
+
+    setOrientation( newOrientation );
+    insertWidget( mainFirst ? 0 : 1, logMainView_ );
+    insertWidget( mainFirst ? 1 : 0, bottomWindow_ );
+    filteredPanelDockEdge_ = edge;
+
+    if ( oldOrientation == newOrientation ) {
+        auto newSizes = oldSizes;
+        if ( oldSizes.size() >= 2 && oldMainFirst != mainFirst ) {
+            std::reverse( newSizes.begin(), newSizes.end() );
+        }
+        if ( newSizes.size() >= 2 ) {
+            setSizes( newSizes );
+        }
+    }
+    else {
+        setSizes( QList<int>{ 3, 1 } );
+    }
+}
+
+void CrawlerWidget::updateFilteredPanelDragCursor( const QPoint& globalPos )
+{
+    if ( filteredPanelDragHandle_ == nullptr ) {
+        return;
+    }
+
+    const auto edge = closestFilteredPanelDockEdge( globalPos );
+    switch ( edge ) {
+    case Qt::TopEdge:
+    case Qt::BottomEdge:
+        filteredPanelDragHandle_->setCursor( Qt::SizeVerCursor );
+        break;
+    case Qt::LeftEdge:
+    case Qt::RightEdge:
+        filteredPanelDragHandle_->setCursor( Qt::SizeHorCursor );
+        break;
+    }
+}
+
+bool CrawlerWidget::eventFilter( QObject* watched, QEvent* event )
+{
+    if ( watched == filteredPanelDragHandle_ ) {
+        switch ( event->type() ) {
+        case QEvent::MouseButtonPress: {
+            auto* mouseEvent = static_cast<QMouseEvent*>( event );
+            if ( mouseEvent->button() == Qt::LeftButton ) {
+                filteredPanelDragInProgress_ = true;
+                filteredPanelDragMoved_ = false;
+                filteredPanelDragStartPos_ = mouseEvent->globalPos();
+                filteredPanelDragHandle_->grabMouse();
+                return true;
+            }
+            break;
+        }
+        case QEvent::MouseMove: {
+            if ( !filteredPanelDragInProgress_ ) {
+                break;
+            }
+
+            auto* mouseEvent = static_cast<QMouseEvent*>( event );
+            if ( !filteredPanelDragMoved_
+                 && ( mouseEvent->globalPos() - filteredPanelDragStartPos_ ).manhattanLength()
+                        >= QApplication::startDragDistance() ) {
+                filteredPanelDragMoved_ = true;
+            }
+            if ( filteredPanelDragMoved_ ) {
+                updateFilteredPanelDragCursor( mouseEvent->globalPos() );
+            }
+            return true;
+        }
+        case QEvent::MouseButtonRelease: {
+            if ( !filteredPanelDragInProgress_ ) {
+                break;
+            }
+
+            auto* mouseEvent = static_cast<QMouseEvent*>( event );
+            filteredPanelDragInProgress_ = false;
+            filteredPanelDragHandle_->releaseMouse();
+            if ( filteredPanelDragMoved_ ) {
+                setFilteredPanelDockEdge(
+                    closestFilteredPanelDockEdge( mouseEvent->globalPos() ) );
+            }
+            filteredPanelDragMoved_ = false;
+            filteredPanelDragHandle_->setCursor( Qt::SizeAllCursor );
+            return true;
+        }
+        default:
+            break;
+        }
+    }
+
+    return QSplitter::eventFilter( watched, event );
 }
 
 void CrawlerWidget::changeFontSize( bool increase )
@@ -1723,11 +1892,30 @@ void CrawlerWidget::updateEncoding()
 // Change the respective size of the two views
 void CrawlerWidget::changeTopViewSize( int32_t delta )
 {
-    int min, max;
-    getRange( 1, &min, &max );
-    LOG_DEBUG << "CrawlerWidget::changeTopViewSize " << sizes().at( 0 ) << " " << min << " " << max;
-    moveSplitter( closestLegalPosition( sizes().at( 0 ) + ( delta * 10 ), 1 ), 1 );
-    LOG_DEBUG << "CrawlerWidget::changeTopViewSize " << sizes().at( 0 );
+    if ( logMainView_ == nullptr || bottomWindow_ == nullptr ) {
+        return;
+    }
+
+    const auto mainIndex = indexOf( logMainView_ );
+    const auto filteredIndex = indexOf( bottomWindow_ );
+    if ( mainIndex < 0 || filteredIndex < 0 || mainIndex == filteredIndex ) {
+        return;
+    }
+
+    auto newSizes = sizes();
+    if ( newSizes.size() < 2 ) {
+        return;
+    }
+
+    const auto mainDelta = delta * 10;
+    newSizes[ mainIndex ] += mainDelta;
+    newSizes[ filteredIndex ] -= mainDelta;
+    newSizes[ mainIndex ] = qMax( 0, newSizes[ mainIndex ] );
+    newSizes[ filteredIndex ] = qMax( 0, newSizes[ filteredIndex ] );
+
+    LOG_DEBUG << "CrawlerWidget::changeTopViewSize " << newSizes.at( mainIndex ) << " "
+              << newSizes.at( filteredIndex );
+    setSizes( newSizes );
 }
 
 void CrawlerWidget::addColorLabelToSelection( size_t label )
@@ -1878,6 +2066,14 @@ void CrawlerWidgetContext::loadFromJson( const QString& json )
         }
     }
 
+    if ( properties.contains( "E" ) ) {
+        const auto edge = properties.value( "E" ).toInt();
+        if ( edge == Qt::TopEdge || edge == Qt::LeftEdge || edge == Qt::RightEdge
+             || edge == Qt::BottomEdge ) {
+            filteredPanelDockEdge_ = static_cast<Qt::Edge>( edge );
+        }
+    }
+
     ignoreCase_ = properties.value( "IC" ).toBool();
     autoRefresh_ = properties.value( "AR" ).toBool();
     followFile_ = properties.value( "FF" ).toBool();
@@ -1923,6 +2119,7 @@ QString CrawlerWidgetContext::toString() const
     QVariantMap properies;
 
     properies[ "S" ] = toVariantList( sizes_ );
+    properies[ "E" ] = static_cast<int>( filteredPanelDockEdge_ );
     properies[ "IC" ] = ignoreCase_;
     properies[ "AR" ] = autoRefresh_;
     properies[ "FF" ] = followFile_;

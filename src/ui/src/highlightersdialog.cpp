@@ -330,6 +330,7 @@ void HighlightersDialog::resolveDialog( QAbstractButton* button )
         LOG_ERROR << "unhandled role : " << role;
         return;
     }
+    persistentHighlighterSet.updateCombinedSet();
     persistentHighlighterSet.save();
     Q_EMIT optionsChanged();
 }

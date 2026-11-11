@@ -45,6 +45,7 @@
 
 #include <QCheckBox>
 #include <QComboBox>
+#include <QFrame>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMenu>
@@ -149,6 +150,8 @@ class CrawlerWidget : public QSplitter,
     void doSendAllStateSignals() override;
 
     void changeEvent( QEvent* event ) override;
+
+    bool eventFilter( QObject* watched, QEvent* event ) override;
 
   Q_SIGNALS:
     // Sent to signal the client load has progressed,
@@ -351,6 +354,10 @@ class CrawlerWidget : public QSplitter,
 
     void changeFontSize( bool increase );
 
+    void setFilteredPanelDockEdge( Qt::Edge edge );
+    Qt::Edge closestFilteredPanelDockEdge( const QPoint& globalPos ) const;
+    void updateFilteredPanelDragCursor( const QPoint& globalPos );
+
     // Palette for error notification (yellow background)
     static const QPalette ErrorPalette;
 
@@ -370,6 +377,13 @@ class CrawlerWidget : public QSplitter,
     FilteredView* filteredView_;
     std::unordered_map<FilteredView*, std::shared_ptr<LogFilteredData>> filteredViewsData_;
     QTabWidget* tabbedFilteredView_;
+    QWidget* bottomWindow_;
+
+    QFrame* filteredPanelDragHandle_;
+    QPoint filteredPanelDragStartPos_;
+    bool filteredPanelDragInProgress_ = false;
+    bool filteredPanelDragMoved_ = false;
+    Qt::Edge filteredPanelDockEdge_ = Qt::BottomEdge;
 
     OverviewWidget* overviewWidget_;
 

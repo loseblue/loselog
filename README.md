@@ -31,6 +31,7 @@ while continuing maintenance and improvements.
 - Fast regular-expression search with Hyperscan and Qt regex backends
 - Quick find wraps forward searches around the end of the file
 - Shows search results in a separate filtered view
+- Filtered view can be dragged and docked to the top, bottom, left, or right of the main view
 - Highlights matches and supports color labels for interesting lines
 - Opens archives, compressed files, and remote URLs
 - Detects text encoding automatically
