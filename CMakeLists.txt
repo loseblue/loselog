@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 
 project(
   loselog
-  VERSION 24.11.1
+  VERSION 24.11.1.1
   DESCRIPTION "loselog log viewer"
   LANGUAGES C CXX ASM
 )

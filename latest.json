@@ -1,8 +1,8 @@
 {
     "ci":"22.06.0.1289",
     "ci_url" : "https://github.com/loseblue/loselog/releases/tag/continuous",
-    "stable": "24.11.1.0",
-    "stable_url" : "https://github.com/loseblue/loselog/releases/tag/v24.11.1.0",
+    "stable": "24.11.1.1",
+    "stable_url" : "https://github.com/loseblue/loselog/releases/tag/v24.11.1.1",
     "releases": [
         "17.12.0.245", 
         "19.2.0.366", 
@@ -10,7 +10,8 @@
         "20.4.0.589", 
         "20.12.0.808", "20.12.0.810", "20.12.0.812", "20.12.0.813",
         "22.06.0.1289",
-        "24.11.1.0"
+        "24.11.1.0",
+        "24.11.1.1"
     ],
     "changelog": [
         { "version": "20.12.0.808", "description": "New stable release" },
@@ -18,6 +19,7 @@
         { "version": "20.12.0.812", "description": "Fixed crash when saving results to file" },
         { "version": "20.12.0.813", "description": "Fixed actual saving results to file" },
         { "version": "22.06.0.1289", "description": "New stable release" },
-        { "version": "24.11.1.0", "description": "New stable release" }
+        { "version": "24.11.1.0", "description": "New stable release" },
+        { "version": "24.11.1.1", "description": "New stable release" }
     ]
 }
